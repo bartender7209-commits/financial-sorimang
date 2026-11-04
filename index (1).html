@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>금융소리망 4.0 | 가입 차단형 ELS 상담 검증</title>
+<style>
+:root{--navy:#0d2344;--navy2:#142f57;--accent:#2363e9;--bg:#f3f6fb;--surface:#fff;--line:#e0e7f1;--muted:#6a7891;--txt:#172843;--green:#138456;--amber:#ad6800;--red:#c73542;--softblue:#ecf3ff;--r:16px}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Pretendard,'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;color:var(--txt);letter-spacing:-.25px}
+button,input,textarea,select{font:inherit}button{cursor:pointer;transition:transform .1s,background .1s}button:active{transform:scale(.98)}button:disabled{opacity:.55;cursor:not-allowed}a{color:inherit}
+.app{display:grid;grid-template-columns:238px minmax(0,1fr);min-height:100vh}.sidebar{background:var(--navy);color:#dbe6fa;padding:28px 18px;display:flex;flex-direction:column;gap:18px}.brand{display:flex;align-items:center;gap:10px;padding:6px 10px 18px;border-bottom:1px solid #355074}.brand-mark{height:38px;width:38px;border-radius:12px;background:linear-gradient(135deg,#5b9fff,#1558d8);display:grid;place-items:center;font-size:21px;font-weight:900;color:white}.brand h1{font-size:20px;line-height:1.2;color:white;margin:0}.brand small{font-size:11px;opacity:.72;display:block;margin-top:4px;letter-spacing:.2px}.side-label{font-size:11px;font-weight:750;letter-spacing:1.3px;color:#859fca;padding:2px 12px}.navbtn{width:100%;text-align:left;border:0;background:#ffffff16;border-radius:10px;color:#dbe6fa;padding:13px 12px;font-size:14px;font-weight:700;display:flex;gap:10px;align-items:center}.navbtn.active{background:#3675e9;color:white}.navbtn:hover{background:#ffffff25}.smallnote{margin-top:auto;border:1px solid #51698c;background:#ffffff0a;border-radius:12px;padding:13px;font-size:12px;line-height:1.65;color:#b7c9e4}.smallnote b{display:block;color:white;margin-bottom:4px}
+.main{min-width:0;padding:26px 28px 35px}.header{display:flex;gap:20px;align-items:center;justify-content:space-between;margin-bottom:19px;flex-wrap:wrap}.header h2{margin:0;font-size:25px;letter-spacing:-.9px}.header p{color:var(--muted);font-size:13px;margin:7px 0 0}.topactions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.pill{border:1px solid #d7e4fb;border-radius:100px;padding:8px 13px;background:white;font-size:12px;font-weight:750;color:#3268bf}.pill.live{color:#067447;background:#e5f7ed;border-color:#bdedce}.pill.live:before{content:'●';font-size:9px;margin-right:5px}.pill.off:before{content:'●';font-size:9px;color:#92a1b8;margin-right:5px}.btn{border:1px solid var(--line);background:white;color:#314560;border-radius:9px;padding:10px 13px;font-size:13px;font-weight:750}.btn.primary{background:var(--accent);border-color:var(--accent);color:white}.btn.dark{background:#173052;border-color:#173052;color:white}.btn.warn{background:#fff5f2;border-color:#f2c7c0;color:#b34330}.btn:hover{filter:brightness(.97)}.btn:focus-visible,.navbtn:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #7cbbff;outline-offset:2px}
+.notice{background:#fffbef;border:1px solid #f1dfad;padding:11px 16px;border-radius:10px;color:#775a1c;font-size:12px;line-height:1.6;margin-bottom:16px}.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}.stat{background:white;border:1px solid var(--line);border-radius:12px;padding:17px 18px;min-width:0}.stat .label{font-size:12px;color:var(--muted);font-weight:700;margin-bottom:8px}.stat .num{font-size:26px;font-weight:850;letter-spacing:-1px}.stat .sub{font-size:11px;color:#8090a5;margin-top:5px}.stat:nth-child(2) .num{color:var(--green)}.stat:nth-child(3) .num{color:var(--red)}
+.workspace{display:grid;grid-template-columns:minmax(340px,1.12fr) minmax(360px,1fr);gap:16px;align-items:start}.panel{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:0 3px 14px #1b43850a}.panelhead{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:18px 20px;border-bottom:1px solid var(--line)}.panelhead h3{font-size:16px;margin:0;display:flex;align-items:center;gap:9px}.panelhead small{color:var(--muted);font-size:11px}.panelhead .kicker{font-size:11px;color:var(--accent);font-weight:800}.transcript{padding:15px 17px;height:440px;overflow:auto;scroll-behavior:smooth}.empty{height:100%;display:grid;align-content:center;justify-items:center;text-align:center;color:#8798b1;padding:20px;gap:7px}.empty .em{height:58px;width:58px;border-radius:20px;background:#ebf2ff;color:#2e6bdd;display:grid;place-items:center;font-size:28px;margin-bottom:4px}.empty strong{font-size:15px;color:#4f6585}.empty p{font-size:12px;line-height:1.7;margin:0}.utterance{display:flex;align-items:flex-start;gap:10px;margin:0 0 13px;padding:10px 11px;border-radius:10px;border:1px solid transparent;position:relative}.utterance.staff{background:#f0f6ff}.utterance.customer{background:#f8f9fc}.utterance.highlight{border-color:#f7a4a9;background:#fff2f2}.utterance:focus{outline:2px solid #739bee}.avatar{min-width:40px;text-align:center;font-size:11px;font-weight:800;padding:5px 4px;background:#2769d9;color:white;border-radius:6px}.customer .avatar{background:#8e96a5}.message{min-width:0;flex:1}.message .meta{font-size:11px;color:#7890af;margin-bottom:6px}.message .body{font-size:13px;line-height:1.65;word-break:break-word;white-space:pre-wrap}.message .warnmark{font-size:11px;color:var(--red);font-weight:800;margin-top:7px}.interim{background:#f2fbff;padding:12px 16px;color:#45748e;font-size:12px;border-top:1px solid var(--line);min-height:43px;line-height:1.4}.entry{padding:16px 18px;border-top:1px solid var(--line)}.entry-top{display:flex;gap:9px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:11px}.fieldlabel{font-size:12px;color:var(--muted);font-weight:750}.controls{display:flex;flex-wrap:wrap;gap:7px}.controls select{border:1px solid #d3dfef;background:#f8faff;border-radius:8px;padding:9px 8px;color:#243e60;font-weight:700;font-size:12px}.entry textarea{width:100%;height:66px;min-height:66px;resize:vertical;border:1px solid #d4dfed;border-radius:9px;padding:11px 12px;font-size:13px;outline:none;line-height:1.5}.entry textarea:focus{border-color:#2f76de}.entry-actions{display:flex;gap:7px;margin-top:9px;justify-content:space-between;align-items:center;flex-wrap:wrap}.entry-actions .help{font-size:11px;color:var(--muted)}.mic-active{background:#e94855!important;color:white!important;border-color:#e94855!important}.mic-active:before{content:'● ';font-size:10px}
+.rightstack{display:grid;gap:16px}.checkitems{padding:8px 17px 16px}.checkrow{display:flex;gap:11px;align-items:center;padding:12px 5px;border-bottom:1px solid #edf1f7;cursor:pointer}.checkrow:last-child{border:0}.statusicon{flex:0 0 28px;height:28px;width:28px;border-radius:9px;display:grid;place-items:center;font-size:14px;font-weight:900}.statusicon.done{color:#118056;background:#dcf7eb}.statusicon.pending{color:#8d99ab;background:#f0f3f8}.statusicon.review{color:#a56c06;background:#fff0cf}.statusicon.missing{color:#ca3842;background:#ffe8e9}.checkmeta{flex:1;min-width:0}.checkmeta strong{font-size:13px;display:block}.checkmeta small{font-size:11px;color:#8b9aad;line-height:1.5;margin-top:3px;display:block}.statusword{font-size:11px;font-weight:800;white-space:nowrap;color:#8390a2}.statusword.done{color:var(--green)}.statusword.review{color:var(--amber)}.statusword.missing{color:var(--red)}.progress{height:6px;background:#edf1fa;border-radius:10px;margin:0 20px 17px;overflow:hidden}.progress > div{height:100%;background:#24a777;border-radius:10px;transition:width .2s}
+.alerts{padding:14px 17px 17px;min-height:160px}.alert{border:1px solid #f5d5d6;border-left:4px solid #d94952;border-radius:10px;padding:12px 13px;background:#fff7f7;margin-bottom:10px}.alert.question{border-color:#f2e3bf;border-left-color:#d39528;background:#fffaf0}.alert.end{border-color:#dde5ef;border-left-color:#9caec5;background:#f7faff}.alert strong{display:block;font-size:12px;line-height:1.5;margin-bottom:6px}.alert p{margin:0;font-size:12px;color:#53647c;line-height:1.65}.alert .evidence{display:block;margin-top:7px;color:#687d99;font-size:11px;line-height:1.5;padding:6px 8px;background:#ffffff99;border-radius:7px}.alert .jump{margin-top:7px;background:transparent;color:#205ec3;font-size:11px;font-weight:750;border:0;padding:0}.good{border:1px solid #ccebdc;background:#f3fcf7;color:#298161;border-radius:10px;padding:20px;font-size:12px;line-height:1.7;text-align:center}.foot{padding:14px 3px;color:#8492a5;font-size:11px;line-height:1.7}.scenario{background:white;border:1px solid var(--line);border-radius:12px;margin:16px 0 0;padding:15px 17px;display:flex;align-items:center;gap:14px;justify-content:space-between;flex-wrap:wrap}.scenario-title{font-size:13px;font-weight:800}.scenario p{font-size:11px;color:var(--muted);margin:5px 0 0;line-height:1.6}.scenario-buttons{display:flex;gap:7px;flex-wrap:wrap}
+@media(max-width:1210px){.app{grid-template-columns:1fr}.sidebar{padding:13px 18px;flex-direction:row;align-items:center;flex-wrap:wrap}.brand{padding:0 12px 0 0;border:0}.side-label,.sidebar>.smallnote{display:none}.sidebar .navbtn{width:auto}.main{padding:20px}.workspace{grid-template-columns:1fr 1fr}}
+@media(max-width:870px){.workspace{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.transcript{height:310px}.header h2{font-size:22px}.main{padding:14px}.brand h1{font-size:16px}}
+@media(max-width:530px){.stats{grid-template-columns:1fr 1fr;gap:8px}.stat{padding:12px}.stat .num{font-size:22px}.header{gap:10px}.panelhead{padding:14px}.sidebar{gap:6px}.navbtn{font-size:12px;padding:9px}.scenario-buttons{width:100%}.btn{font-size:12px}}
+.settingbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:space-between;background:white;border:1px solid var(--line);border-radius:12px;padding:12px 18px;margin-bottom:16px;font-size:12px}.settingbar span{color:var(--muted)}.settingbar select{font:inherit;border:1px solid var(--line);border-radius:9px;padding:9px 12px;background:white;color:var(--txt);font-weight:700}.statusicon.review{background:#fff0cf;color:#a56c06}.statusword.review{color:var(--amber)}
+
+.productcard{background:#fff;border:1px solid var(--line);border-radius:12px;padding:15px 19px;margin-bottom:16px}.producthead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.producthead strong{font-size:13px}.producthead p{margin:5px 0 0;color:#6d7e95;font-size:12px;line-height:1.5}.tinychip{border-radius:20px;background:#fff0d7;color:#925600;font-size:10px;padding:3px 8px;margin-left:7px;vertical-align:middle}.productdetail{border-top:1px solid #edf0f6;margin-top:12px;padding-top:13px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.productdetail[hidden]{display:none}.productdetail>div{background:#f4f7fc;border-radius:8px;padding:10px 12px;min-width:0;display:grid;gap:4px}.productdetail b{font-size:10px;color:#6a7891}.productdetail span{font-size:12px;font-weight:700;line-height:1.5}.sourcebox{background:#fff;border:1px solid var(--line);border-radius:12px;padding:15px 19px;margin-top:15px;font-size:12px;color:#6d7e95;line-height:1.65}.sourcebox>strong{display:block;color:#263b5c;font-size:13px;margin-bottom:6px}.sources{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.sources a{border:1px solid #dce6f6;padding:6px 10px;border-radius:7px;font-size:11px;color:#1c55ac;text-decoration:none}.sourcebox b{color:#3a587f}
+@media(max-width:900px){.productdetail{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:530px){.productdetail{grid-template-columns:1fr}}
+
+/* 4.0 상담 단계별 가상 가입 차단 UI. 기존 3.2 마이크 코드는 유지 */
+.gatepanel{background:#fff;border:1px solid #d9e4f3;border-radius:16px;box-shadow:0 8px 26px #15395b0b;margin:0 0 16px;overflow:hidden}
+.gatehead{padding:17px 20px;border-bottom:1px solid #edf1f7;display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.gatehead h3{font-size:17px;margin:0;letter-spacing:-.5px}.gatehead p{font-size:12px;color:#667792;line-height:1.6;margin:4px 0 0}
+.gatechip{font-size:11px;border-radius:50px;padding:7px 11px;background:#edf4ff;color:#265caa;font-weight:800}
+.gatebody{display:grid;grid-template-columns:minmax(270px,1fr) minmax(300px,1.08fr);gap:18px;padding:18px 20px}
+.gatehero{border:1px solid #f0d7dc;background:linear-gradient(145deg,#fff7f8,#ffffff);border-radius:13px;padding:17px;display:flex;align-items:flex-start;gap:13px}
+.gatehero.ready{border-color:#b4e6d1;background:linear-gradient(145deg,#effff6,#fff)}
+.gatehero.approved{border-color:#b7d0f8;background:linear-gradient(145deg,#eff6ff,#fff)}
+.gateicon{font-size:25px;height:46px;width:46px;flex:0 0 46px;border-radius:12px;background:#ffe7eb;color:#af3343;display:grid;place-items:center}
+.ready .gateicon{background:#d5f5e4;color:#0e8a58}.approved .gateicon{background:#ddeaff;color:#225ac1}
+.gatehero strong{font-size:19px;display:block;margin-bottom:5px}.gatehero p{font-size:12px;line-height:1.55;margin:0;color:#687992}
+.gatesteps{margin-top:11px;display:grid;grid-template-columns:repeat(2,1fr);gap:7px}.gatestep{padding:8px 10px;border:1px solid #e6ebf4;border-radius:8px;font-size:11px;color:#718199;font-weight:750}.gatestep.pass{color:#117b55;border-color:#bbe6d2;background:#f2fcf6}.gatestep.fail{color:#a73f48;border-color:#f1cbd0;background:#fff6f6}
+.gatesteps .mark{margin-right:6px}
+.gateactions{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:13px}.gateactions .btn{min-width:130px}
+#saleButton:disabled{background:#8c9bb1;color:#fff;border-color:#8c9bb1;opacity:1;cursor:not-allowed}
+.gatecheck{border:1px solid #e0e7f1;border-radius:11px;padding:11px 13px;background:#f8faff;display:flex;gap:10px;align-items:flex-start;font-size:12px;line-height:1.55;font-weight:700;color:#3d5170}
+.gatecheck input{width:17px;height:17px;flex:0 0 17px;accent-color:#246bdd;margin-top:2px}
+.gatecheck small{display:block;font-size:11px;color:#73819a;font-weight:450;margin-top:3px}
+.gatereasons{border:1px solid #e5ebf4;border-radius:11px;margin-top:10px;overflow:hidden}.gatereasonsheader{padding:10px 13px;background:#f8faff;font-size:12px;font-weight:800}
+.gatereasonslist{margin:0;padding:5px 13px 9px;list-style:none;max-height:176px;overflow-y:auto}.gatereasonslist li{font-size:12px;padding:7px 0;line-height:1.45;border-bottom:1px solid #f0f3f8;color:#596985;display:flex;gap:8px;align-items:flex-start}.gatereasonslist li:last-child{border-bottom:0}.gatereasonslist .dot{color:#d54955;font-weight:900}.gatereasonslist .dot.ok{color:#139264}
+.gatedisclaimer{font-size:11px;line-height:1.6;color:#7b899f;padding:0 20px 15px}
+.gateriskresolved{color:#107d54;font-size:11px;font-weight:700;margin-top:8px}
+.approvalnotice{font-size:11px;font-weight:700;color:#225c9e;padding:9px 10px;background:#eef5ff;border:1px solid #cadefc;border-radius:8px;margin-top:10px;line-height:1.5}
+@media(max-width:960px){.gatebody{grid-template-columns:1fr}}@media(max-width:530px){.gatebody{padding:12px}.gatehead{padding:14px}.gatedisclaimer{padding:0 13px 13px}.gatesteps{grid-template-columns:1fr 1fr}.gatehero strong{font-size:16px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><div class="brand-mark">≋</div><div><h1>금융소리망</h1><small>FINANCIAL VOICE GUARD</small></div></div>
+  <div class="side-label">H-INDEX ELS · V4.0</div>
+  <button class="navbtn active" type="button">◉ &nbsp; 상담 모니터링</button>
+  <div class="smallnote"><b>시연용 소프트웨어</b>이 프로그램은 가상 가입을 잠그는 시연용 소프트웨어입니다. 실제 금융회사 계좌/주문 시스템에 연동되지 않으며 법적 준수 여부를 판정하지 않습니다.</div>
+</aside>
+<main class="main">
+  <div class="header"><div><h2>홍콩 H지수 ELS · 가입 통제형 상담 검증</h2><p>설명이 부족하면 가상 가입을 차단하고, 보완·재검증 후 잠금을 해제합니다.</p></div><div class="topactions"><span class="pill off" id="livePill">마이크 대기</span><button class="btn" id="downloadBtn" type="button">↓ 상담 기록 저장</button><button class="btn warn" id="resetBtn" type="button">전체 초기화</button></div></div>
+  <div class="notice"><b>개인정보·보안 안내:</b> 반드시 가상 상담 내용으로만 시험하세요. 브라우저 음성인식 서비스는 음성을 외부 서버로 전송할 수 있으며, 이 프로토타입은 실사용 고객의 음성·개인정보 처리를 위해 설계되지 않았습니다.</div>
+  <section class="stats" aria-label="상담 요약">
+    <div class="stat"><div class="label">상담 발언 수</div><div class="num" id="statLines">0</div><div class="sub">직원·고객 전체</div></div>
+    <div class="stat"><div class="label">설명 확인 항목</div><div class="num" id="statDone">0 / 10</div><div class="sub">ELS 점검 항목 · 비법적 판정</div></div>
+    <div class="stat"><div class="label">확인 필요 알림</div><div class="num" id="statAlerts">0</div><div class="sub">위험 발언·질문 미응답·보완 항목</div></div>
+    <div class="stat"><div class="label">상담 진행 시간</div><div class="num" id="statTime">00:00</div><div class="sub" id="sessionStatus">대기 중</div></div>
+  </section>
+  <div class="settingbar"><div><strong>ELS 시연 상품 프로필</strong><span> 아래 조건은 시연을 위한 가상 예시입니다. 실제 상품의 손실 산식·비용과 다를 수 있습니다.</span></div><select id="category" aria-label="가상 상품 유형"><option value="els">가상 H지수 연계 ELS (교육용)</option></select></div>
+  <section class="productcard" aria-label="시연용 상품 가정"><div class="producthead"><div><strong>상품 설명 대조 기준 <span class="tinychip">실제 판매상품 아님</span></strong><p>홍콩 H지수(HSCEI) 연계 ELS 구조를 이해하기 위한 <b>가상의 교육용 계약조건</b></p></div><button class="btn" type="button" id="profileToggle" aria-expanded="false">예시 조건 펼치기 ▾</button></div>
+  <div class="productdetail" id="productDetail" hidden>
+  <div><b>기초자산</b><span>홍콩 H지수(HSCEI)</span></div><div><b>만기</b><span>3년 (가정)</span></div><div><b>조기상환</b><span>6개월마다 평가 / 90% 이상 조건 (가정)</span></div><div><b>낙인(KI)</b><span>최초 기준가격의 50% (가정)</span></div><div><b>가입 수수료</b><span>0.5% (시연용 가정)</span></div><div><b>원금·예금보호</b><span>원금 비보장 / 예금자보호 비대상</span></div>
+  </div></section>
+
+  <section class="gatepanel" id="saleGate" aria-label="가상 금융상품 가입 통제">
+    <div class="gatehead"><div><h3>🔒 가상 금융상품 가입 통제 센터</h3><p>설명 누락·위험 발언·미해결 질문이 있으면 가입 절차를 진행할 수 없습니다.</p></div><span class="gatechip">가상 가입 시연 · 실제 은행 연동 없음</span></div>
+    <div class="gatebody">
+      <div>
+        <div class="gatehero" id="gateHero"><div class="gateicon" id="gateIcon" aria-hidden="true">🔒</div><div><strong id="gateTitle">가입 진행 잠금</strong><p id="gateSummary">상담을 진행하고 필수 설명을 확인해 주세요.</p></div></div>
+        <div class="gatesteps" id="gateSteps" aria-label="가입 진행 조건">
+          <div class="gatestep fail" id="stepFinish"><span class="mark">○</span>상담 종료 및 최종 점검</div>
+          <div class="gatestep fail" id="stepRules"><span class="mark">○</span>10개 항목 근거 확인</div>
+          <div class="gatestep fail" id="stepSafety"><span class="mark">○</span>위험·질문·보완항목 해소</div>
+          <div class="gatestep fail" id="stepHuman"><span class="mark">○</span>담당자 별도 확인</div>
+        </div>
+        <div class="gateactions"><button class="btn primary" id="saleButton" type="button" disabled>🔒 가상 가입 진행 잠금</button><button class="btn" id="gateReviewButton" type="button">차단 사유 보기</button><button class="btn" id="resumeButton" type="button">설명 보완하기</button></div>
+        <div class="approvalnotice" id="gateApprovalNotice" hidden role="status"></div>
+      </div>
+      <div>
+        <label class="gatecheck"><input type="checkbox" id="reviewCheck" disabled><span>담당자 검토 확인 (시연용)<small>상품설명서·투자성향 확인·고객 이해 등을 별도 확인했다는 가상 단계입니다. 실제 적합성 심사나 법률 검증을 수행하지 않습니다.</small></span></label>
+        <div class="gatereasons" id="gateReasons"><div class="gatereasonsheader" id="gateReasonTitle">가입 차단 사유</div><ul class="gatereasonslist" id="gateReasonsList"><li>상담 내용을 입력하면 차단 사유를 확인할 수 있습니다.</li></ul></div>
+        <div class="gateriskresolved" id="gateResolved" hidden></div>
+      </div>
+    </div>
+    <div class="gatedisclaimer"><b>중요:</b> 이 잠금/해제는 브라우저 내부의 <b>가상 가입 시연</b>입니다. 실제 금융회사 주문·계좌·서명 절차를 막지 않으며, 규칙의 탐지 결과가 금융소비자보호법상 적법성과 같지 않습니다. 실제 적용에는 서버 검증·은행 전산 연동·상품별 법률 검토가 필요합니다.</div>
+  </section>
+  <section class="workspace">
+    <div class="panel">
+      <div class="panelhead"><h3>🎙 실시간 상담 내용</h3><span class="kicker" id="transcriptCount">0개 발언</span></div>
+      <div class="transcript" id="transcript" aria-live="polite"><div class="empty"><div class="em">〰</div><strong>상담이 아직 시작되지 않았습니다</strong><p>마이크를 직접 켜서 말하거나<br>아래에서 시연 대화를 불러오세요.</p></div></div>
+      <div class="interim" id="interimText">프로그램 초기화 중입니다. 잠시만 기다려 주세요.</div>
+      <div class="entry">
+        <div class="entry-top"><span class="fieldlabel">발언 입력 / 수동 마이크 제어</span><div class="controls"><select id="speaker" aria-label="현재 발언자"><option value="staff">은행원 발언</option><option value="customer">고객 발언</option></select><button class="btn dark" id="micBtn" type="button">🎤 마이크 켜기 (수동)</button><button class="btn" id="micDiag" type="button" title="마이크 권한과 연결 상태 확인">🔧 마이크 진단</button></div></div>
+        <textarea id="userText" placeholder="예: 고객님, 이 상품은 원금손실 가능성이 있습니다.&#10;마이크 인식이 안 되면 직접 입력할 수 있습니다."></textarea>
+        <div class="entry-actions"><span class="help" id="micHelp">프로그램 초기화 중입니다. 화면이 그대로라면 새로고침해 주세요.</span><div class="controls"><button class="btn" type="button" id="finishBtn">상담 종료·최종 점검</button><button class="btn primary" type="button" id="addBtn">직접 입력 발언 등록 ↵</button></div></div>
+      </div>
+    </div>
+    <div class="rightstack">
+      <div class="panel"><div class="panelhead"><h3>☑ ELS 핵심 설명 점검 · 근거 확인</h3><small id="progressLabel">0/10 근거 확인</small></div><div class="checkitems" id="checkItems"></div><div class="progress"><div id="progressBar" style="width:0%"></div></div></div>
+      <div class="panel"><div class="panelhead"><h3>⚠ 보완·위험 알림 <span style="font-size:10px;color:#8a9fbb">(무료 규칙 기반 · AI API 없음)</span></h3><span class="kicker" id="alertLabel">0건</span></div><div class="alerts" id="alerts"></div></div>
+    </div>
+  </section>
+  <section class="scenario"><div><div class="scenario-title">발표용 시연 시나리오</div><p>실제 음성인식 외에도, 미리 작성한 상담 대화를 자동으로 재생해 점검 기능을 시연할 수 있습니다.</p></div><div class="scenario-buttons"><button class="btn warn" id="demoBad" type="button">홍콩 ELS 문제 상담</button><button class="btn" id="demoGood" type="button">정상 ELS 상담 시연</button><button class="btn" id="demoRecover" type="button">문제 상담 보완하기</button><button class="btn" id="demoContrast" type="button">정정 표현 비교</button><button class="btn primary" id="demoStep" type="button">다음 발언 ▶</button></div></section>
+  <section class="sourcebox"><strong>분석기준 및 사용상 주의</strong><div>이 프로토타입은 금융소비자보호법 설명의무와 금융당국의 홍콩 H지수 ELS 판매 관행 개선 취지 등을 참고한 <b>교육용 위험 탐지 체크리스트</b>입니다. 발언만으로 적합성·설명의무 이행을 입증하거나 확정할 수 없습니다. 체크리스트의 '근거 확인'도 법적 준수를 의미하지 않습니다.</div><div class="sources"><a target="_blank" rel="noopener noreferrer" href="https://www.law.go.kr/LSW/lsSideInfoP.do?docCls=jo&amp;joBrNo=00&amp;joNo=0019&amp;lsiSeq=277247&amp;urlMode=lsScJoRltInfoR">금융소비자보호법 제19조 ↗</a><a target="_blank" rel="noopener noreferrer" href="https://fsc.go.kr/po020201/84057">금융위 홍콩 H지수 ELS 대책 Q&amp;A ↗</a><a target="_blank" rel="noopener noreferrer" href="https://www.kcie.or.kr/guide/2/14/web_view?content_idx=886&amp;series_idx=">전국투자자교육협의회 ELS 구조 안내 ↗</a></div></section>
+  <div class="foot">금융소리망 4.0 · 홍콩 H지수 ELS 교육/경진대회 시연용 · 음성인식(STT) + 무료 자바스크립트 규칙 엔진 · 생성형 AI가 아니며 금융소비자보호법 준수/위반·고객 적합성의 법적 판정이 아닙니다. 화자는 수동 선택해야 하고, 실제 고객 녹취는 사용하지 마세요. 음성인식 제공자가 음성을 외부 서버에서 처리할 수 있습니다.</div>
+</main>
+</div>
+<script>
+/* 금융소리망 3.0 - 홍콩 H지수 ELS 교육/시연용 규칙 기반 점검 엔진.
+ * 실제 법률 위반, 상품 적합성, 완전판매 여부를 판단하지 않습니다.
+ * 일부 문장의 특징을 확인하는 휴리스틱이며 법률/상품별 심사 대체 불가.
+ */
+(function(root,factory){const e=factory();if(typeof module==='object'&&module.exports)module.exports=e;if(root)root.FinanceVoiceEngine=e;})(typeof globalThis!=='undefined'?globalThis:this,function(){
+'use strict';
+const RULES = [
+ {id:'underlying',label:'기초자산·상품 유형',description:'H지수와 ELS의 연계구조 안내',advice:'홍콩 H지수(HSCEI) 등 기초자산과 ELS가 해당 지수에 연계되는 구조를 안내하세요.'},
+ {id:'payoff',label:'조기상환·수익 지급 조건',description:'평가 시점과 수익 지급의 조건 설명',advice:'조기상환 평가 주기, 기초자산 기준가격, 조건 충족 시 수익 지급 구조를 실제 설명서에 맞게 안내하세요.'},
+ {id:'maturity',label:'만기·낙인·손실 판정',description:'만기 조건 및 낙인/노낙인 구조',advice:'만기와 낙인(Knock-in) 또는 노낙인 구조, 최종 손실 결정 조건을 구체적으로 안내하세요.'},
+ {id:'loss',label:'원금손실·최대손실',description:'원금 비보장과 최악의 손실 시나리오',advice:'원금 비보장 및 조건에 따라 원금 전액까지 손실 가능할 수 있다는 점을 설명서 기준으로 명확히 안내하세요.'},
+ {id:'early',label:'중도매도·환매 위험',description:'만기 이전 현금화의 위험과 가격',advice:'중도 매도·환매 가능 여부, 가격 산정 방식, 원금손실 가능성과 적용 비용을 상품별로 안내하세요.'},
+ {id:'fee',label:'수수료·기타 비용',description:'비용 존재 여부와 부과 기준',advice:'수수료·보수·중도매도 비용의 유무와 적용 기준을 실제 상품설명서로 확인하여 안내하세요.'},
+ {id:'deposit',label:'예금자보호 비대상',description:'ELS는 예금이 아닌 투자상품임을 구분',advice:'ELS는 예금자보호 대상이 아닌 투자상품임을 분명하게 안내하세요.'},
+ {id:'issuer',label:'발행사 신용위험',description:'기초자산 이외에 발행사 위험 설명',advice:'발행사의 신용상태 악화·부도 시 지급불능 등 신용위험이 있음을 설명하세요.'},
+ {id:'suitability',label:'고객 투자성향 확인 단서',description:'투자목적·경험·손실 감내 수준 질문과 응답',advice:'투자목적, 거래 경험과 손실 감수 가능 수준을 확인하고 별도의 공식 적합성 심사 절차를 진행하세요.'},
+ {id:'comprehension',label:'고객 이해 확인 단서',description:'주요 위험을 다시 확인하는 질문과 고객 답변',advice:'손실 구조 등 주요 위험에 관한 고객의 이해를 확인하고 필요한 경우 추가 설명하세요.'},
+];
+const RULE_BY_ID=Object.fromEntries(RULES.map(r=>[r.id,r]));
+const DEMOS={
+ bad:[
+  ['staff','이건 홍콩 H지수 ELS인데 안전한 예금 같은 상품입니다. 원금은 100% 보장됩니다.'],
+  ['customer','홍콩 H지수가 크게 떨어지면 제 원금도 손실이 날 수 있나요?'],
+  ['staff','아니요, 걱정하지 마세요. 무조건 수익이 나는 상품입니다.'],
+  ['customer','조기상환 조건이나 낙인 조건은 뭔가요?'],
+  ['staff','조건은 복잡하니까 그냥 넘어가셔도 됩니다.'],
+  ['customer','만기 전 중도에 팔면 손해 볼 수도 있나요?'],
+  ['staff','그건 나중에 보시고 일단 서명부터 하시죠.'],
+  ['customer','예금자보호도 되나요?'],
+  ['staff','네, 예금자보호도 됩니다.']
+ ],
+ good:[
+  ['staff','이 가상 상품은 홍콩 H지수 HSCEI에 연계되는 주가연계증권 ELS이며 만기는 3년입니다.'],
+  ['staff','시연용 조건에서는 6개월마다 조기상환을 평가하며 기초자산이 기준가격의 90% 이상이면 약정된 수익과 함께 조기상환됩니다. 실제 상환 기준은 상품마다 다릅니다.'],
+  ['customer','지수가 많이 떨어지면 원금도 잃을 수 있나요?'],
+  ['staff','네, 원금이 보장되지 않고 지수가 하락하면 원금 일부 또는 전액을 손실할 수 있습니다.'],
+  ['staff','이 가상 상품은 만기 3년이고 낙인 50% 조건을 가정합니다. 낙인 발생 후 만기 회복 조건을 충족하지 못하면 손실이 결정됩니다. 실제 약관을 확인하셔야 합니다.'],
+  ['customer','그럼 만기 전 매도하면 어떻게 되나요?'],
+  ['staff','만기 전에 중도매도하면 시장가격으로 정산되어 원금손실이 발생할 수 있고 비용이 적용될 수 있습니다.'],
+  ['staff','이 가상 사례는 가입수수료 0.5%로 설정했습니다. 실제 비용과 요율은 상품설명서를 기준으로 확인해야 합니다.'],
+  ['customer','은행에서 파는데 예금자보호가 되나요?'],
+  ['staff','아니요. ELS는 예금자보호 대상이 아닙니다.'],
+  ['staff','또한 발행사 신용상태가 악화되거나 부도 나면 지급금을 돌려받지 못할 위험도 있습니다.'],
+  ['staff','고객님의 투자목적과 투자경험, 원금손실을 감내할 수 있는 수준은 어떠신가요?'],
+  ['customer','투자 경험이 있고 여유자금이며 원금 전액 손실 가능성을 감수할 수 있는 범위입니다.'],
+  ['staff','그렇다면 ELS가 고객님께 적합한지는 별도의 공식 투자성향 절차로 확인해야 합니다. 말씀드린 원금 전액 손실 가능성과 중도매도 위험을 이해하셨나요?'],
+  ['customer','네, 원금 전액 손실 가능성과 중도매도 위험을 이해했습니다.']
+ ],
+ contrast:[
+  ['staff','이 상품은 원금이 100% 보장되는 상품이 아닙니다.'],
+  ['staff','무조건 수익이 난다는 표현은 사실이 아닙니다.'],
+  ['customer','그럼 ELS라도 손해가 날 수 있다는 거죠?'],
+  ['staff','맞습니다. 원금손실이 발생할 수 있고, 경우에 따라 전액 손실도 가능합니다.'],
+  ['staff','그럼에도 이 상품은 사실상 예금과 같아서 위험이 없다고 볼 수도 있습니다.'],
+  ['customer','낙인 조건과 조기상환 기준을 더 자세히 듣고 싶습니다.']
+ ]
+};
+const norm=t=>String(t||'').replace(/\s+/g,' ').trim();
+const test=(s,r)=>r.test(s);
+const sentences=t=>String(t||'').split(/(?<=[.!?。])\s+|\n+/).map(norm).filter(Boolean);
+const question=s=>/[?？]|(?:나요|까요|습니까|인가요|뭔가요|무엇|어떻게|얼마|궁금)/.test(s);
+// Negated guarantee and profit claims should not be classified as actual promises.
+function denial(s){return /(?:보장|확정|수익|손실\s*없).{0,22}(?:아니|않|못|없|틀립|잘못|불가능|정확하지|사실이\s*아)|(?:보장|확정)\s*(?:안|비)|(?:보장|확정)되는\s*상품이\s*(?:아니|아닙)|(?:무조건|확실히).{0,16}(?:표현|말)은?\s*(?:잘못|틀림|거짓)/.test(s);}
+function lossDenial(s){return /(?:손실|위험|손해).{0,17}(?:없(?:습|어|다)|안\s*납니다|발생하지\s*않|걱정\s*마|문제\s*없|제로)|원금손실은\s*절대\s*없|위험하지\s*않/.test(s);}
+function guaranteeClaim(s){
+ if(denial(s)||/(?:보장되지|보장되지\s*않|보장하지\s*않|보장되는\s*것은\s*아니|보장되는\s*상품이\s*아니|보장이\s*안|비보장)/.test(s))return false;
+ return /(?:원금|투자금).{0,17}(?:100\s*%|전액)?\s*보장(?:됩니다|돼요|해드|합니다|이에요|이죠|되는\s*상품|받을\s*수\s*있)|(?:원금|투자금)(?:은|이)?\s*(?:무조건|절대|확실히)\s*안전|원금\s*100\s*%\s*보장/.test(s);
+}
+function profitClaim(s){if(denial(s))return false;return /(?:무조건|반드시|절대|확실히)\s*(?:수익|돈\s*벌)|수익(?:이|은|을)?\s*(?:100\s*%\s*)?(?:확정|보장)(?:됩니다|돼요|해드|합니다)|손해\s*볼\s*일\s*없/.test(s);}
+function misleadingSafe(s){if(denial(s))return false;return /(?:예금\s*같|예금과\s*같|안전한\s*예금|위험\s*없|손실\s*없|절대\s*안전|걱정하지\s*마|걱정\s*안\s*해도|문제\s*없)/.test(s);}
+const full=(why)=>({score:2,why});const partial=why=>({score:1,why});const none=()=>({score:0,why:''});
+function assess(id, text){
+ const t=norm(text);if(!t)return none();
+ const mention=(re,why='관련 발언은 있지만 핵심 설명이 충분한지는 확인되지 않습니다.')=>test(t,re)?partial(why):none();
+ switch(id){
+ case 'underlying':
+   if(test(t,/(?:홍콩\s*H\s*지수|H\s*지수|HSCEI|항셍\s*중국기업)/i)&&test(t,/(?:기초자산|연계|ELS|주가연계증권|수익\s*구조)/)&&!question(t))return full('H지수와 ELS 기초자산의 연관성을 설명한 발언입니다.');
+   return mention(/(?:ELS|홍콩|지수|기초자산|주가연계)/i);
+ case 'payoff':
+   if(test(t,/(?:조기\s*상환|조기상환|수익\s*지급|상환\s*조건)/)&&test(t,/(?:\d\s*개월|매\s*\d\s*개월|평가일|매\s*분기|6개월|평가\s*시점)/)&&test(t,/(?:\d+(?:\.\d+)?\s*%|기준\s*가격|조건\s*충족|기초자산).{0,50}/)&&!question(t))return full('조기상환 평가 시점과 조건을 구체적으로 언급했습니다(시연 기준 검출).');
+   return mention(/(?:조기\s*상환|조기상환|평가일|상환\s*조건|수익\s*지급)/);
+ case 'maturity':
+   if(test(t,/(?:만기|상환\s*시점)/)&&test(t,/(?:낙인|녹인|knock.?in|노낙인|노녹인|손실\s*판정|손실\s*조건)/i)&&test(t,/(?:\d+\s*(?:년|개월|%)|회복|미충족|조건|기준가격)/)&&!question(t))return full('만기와 낙인/손실 판정 조건을 연계해 설명했습니다.');
+   return mention(/(?:만기|낙인|녹인|노낙인|노녹인|손실\s*판정)/);
+ case 'loss':
+   if(test(t,/(?:원금|투자금).{0,40}(?:전액|일부|100\s*%|모두).{0,12}(?:손실|잃|날아|없어)/)&&test(t,/(?:가능|수\s*있|발생|될\s*수)/)&&!lossDenial(t))return full('원금 일부/전액 손실 가능성을 명확히 설명했습니다.');
+   if(test(t,/(?:원금|투자금).{0,27}(?:손실|잃을\s*수|보장되지|비보장|보장하지\s*않)/)&&!lossDenial(t))return partial('원금손실 가능성은 언급했지만 최악의 손실 범위까지 확인해 주세요.');
+   return mention(/(?:원금|손실|보장|투자금)/);
+ case 'early':
+   if(test(t,/(?:중도\s*(?:매도|환매|해지)|만기\s*전\s*(?:매도|환매|매각)|환매\s*가격)/)&&test(t,/(?:시장\s*가격|시가|환매\s*가격|가격\s*산정|원금\s*손실|가격에\s*따라|불이익)/)&&!question(t))return full('만기 전 현금화와 가격/손실 위험을 설명했습니다.');
+   return mention(/(?:중도\s*(?:매도|환매|해지)|환매|만기\s*전)/);
+ case 'fee':
+   if(!test(t,/(?:수수료|비용|보수|판매보수|환매\s*비용)/))return none();
+   if(test(t,/(?:수수료|보수|비용).{0,30}(?:\d+(?:\.\d+)?\s*(?:%|원|퍼센트)|없습니다|없어요|면제|부과\s*기준|적용\s*조건)/)&&!question(t)&&!test(t,/(?:신경\s*쓰지|걱정하지\s*마|상관없)/))return full('비용의 수준/유무 또는 적용 기준을 언급했습니다(실제 상품과 대조 필요).');
+   return partial('비용을 언급했지만 구체적인 유무·요율·산정 조건이 부족합니다.');
+ case 'deposit':
+   if(!test(t,/(?:예금자\s*보호|예금\s*보험)/))return none();
+   if(test(t,/(?:비대상|대상(?:이|은)?\s*(?:아니|아닙)|적용(?:되지|되지\s*않|안)|보호(?:되지|받지\s*못|받을\s*수\s*없))/)&&!question(t))return full('ELS가 예금자보호 비대상임을 설명했습니다.');
+   return partial('예금자보호 여부가 명확히 안내되었는지 확인하세요.');
+ case 'issuer':
+   if(test(t,/(?:발행사|발행\s*회사|증권사).{0,32}(?:부도|신용|파산|지급\s*불능|못\s*받|신용\s*상태)/)&&!question(t))return full('발행사 신용위험을 설명했습니다.');
+   return mention(/(?:발행사|발행\s*회사|신용위험|파산)/);
+ case 'suitability':
+   return mention(/(?:투자\s*성향|투자\s*목적|투자\s*경험|손실\s*감수|손실\s*감내|위험\s*성향|투자\s*기간|노후\s*자금)/,'투자성향 관련 질문/언급이 있습니다. 고객 답변과 공식 심사는 별도로 필요합니다.');
+ case 'comprehension':
+   return mention(/(?:이해\s*하셨|이해\s*되셨|이해\s*했는지|이해\s*하십|이해\s*하셨나요|설명\s*이해|질문\s*있으|궁금한\s*점)/,'이해 확인 질문이 있습니다. 고객의 명시적 답변을 확인해야 합니다.');
+ }
+ return none();
+}
+function customerTopics(text){const t=norm(text),arr=[];const keys=[
+ ['underlying',/(?:홍콩|H\s*지수|ELS|기초자산)/i],['payoff',/(?:조기\s*상환|상환\s*조건|수익률|수익은)/],['maturity',/(?:낙인|녹인|만기\s*(?:상환|판정|시점|조건|에)|손실\s*조건)/],['loss',/(?:원금|손실|보장|잃|위험)/],['early',/(?:중도\s*(?:매도|환매|해지)|만기\s*전)/],['fee',/(?:수수료|보수|비용)/],['deposit',/(?:예금자\s*보호|예금\s*보험)/],['issuer',/(?:발행사|신용위험|부도)/]
+ ];for(const [id,re]of keys)if(test(t,re))arr.push(id);return arr;}
+function explicitUnderstood(t){return test(t,/(?:이해했|이해했습니다|이해했어요|알겠습니다|잘\s*알겠|이해하고\s*있|확인했습니다)/)&&!test(t,/(?:못|안\s*되|어렵|헷갈|잘\s*모르|아직\s*모르)/);}
+function confusing(t){return test(t,/(?:이해\s*못|이해가\s*안|잘\s*모르|어렵|헷갈|다시\s*설명|무슨\s*뜻|잘\s*이해가\s*되지)/);}
+function customerSubstance(t){return test(t,/(?:경험|주식|펀드|채권|노후|은퇴|안정|공격|위험|손실|감수|감내|투자\s*목적|자금|투자\s*기간|몇\s*년)/);}
+function analyze(entries,opts={}){
+ const finished=!!opts.finished;
+ const data=(entries||[]).map((e,i)=>({id:e.id??i+1,speaker:e.speaker==='customer'?'customer':'staff',text:norm(e.text),at:e.at||null})).filter(e=>e.text);
+ const states={}, alerts=[];
+ const add=(a)=>{const o={...a,priority:a.priority??2};if(!alerts.some(x=>x.kind===o.kind&&x.id===o.id&&x.ruleId===o.ruleId&&x.title===o.title))alerts.push(o);};
+ // Process conversational pairs. Latest customer answer may invalidate earlier understanding confirmation.
+ for(const rule of RULES){
+  let best={score:0,why:'',entry:null,responseId:null};
+  for(let i=0;i<data.length;i++){
+    const e=data[i];if(e.speaker!=='staff')continue;
+    const check=assess(rule.id,e.text);if(check.score===0)continue;
+    let candidate={...check,entry:e,responseId:null};
+    if(rule.id==='suitability'||rule.id==='comprehension'){
+      const reply=data.slice(i+1).find(n=>n.speaker==='customer');
+      if(reply){
+        if(rule.id==='suitability'&&customerSubstance(reply.text))candidate={score:2,why:'직원 질문과 고객의 투자 관련 답변을 확인했습니다. 공식 적합성 평가는 별도입니다.',entry:e,responseId:reply.id};
+        if(rule.id==='comprehension'&&explicitUnderstood(reply.text))candidate={score:2,why:'직원의 이해 확인 질문과 고객의 명시적 응답을 확인했습니다. 실제 이해의 충분성은 별도 검토가 필요합니다.',entry:e,responseId:reply.id};
+        if(rule.id==='comprehension'&&confusing(reply.text))candidate={score:1,why:'고객이 이해가 어렵다고 답했습니다. 설명을 보완해야 합니다.',entry:reply,responseId:null};
+      }
+    }
+    if(candidate.score>best.score || (candidate.score===best.score&&candidate.entry&&(!best.entry||candidate.entry.id>best.entry.id)))best=candidate;
+  }
+  // Customer expressed unresolved confusion after the last understood reply.
+  if(rule.id==='comprehension'&&best.score===2){
+    const later=data.find(e=>e.speaker==='customer'&&e.id>(best.responseId||0)&&confusing(e.text));
+    if(later)best={score:1,why:'이해 확인 뒤 고객이 다시 이해의 어려움을 표현했습니다.',entry:later,responseId:null};
+  }
+  const status=best.score===2?'done':best.score===1?'review':finished?'missing':'pending';
+  states[rule.id]={...rule,status,score:best.score,entryId:best.entry?best.entry.id:null,responseId:best.responseId,reason:best.why};
+  if(best.score===1)add({kind:'review',ruleId:rule.id,id:best.entry?.id||null,title:`설명 보완 검토 · ${rule.label}`,desc:best.why+' '+rule.advice,evidence:best.entry?.text||'',priority:2});
+  if(finished&&best.score===0)add({kind:'missing',ruleId:rule.id,id:null,title:`상담 종료 후 근거 미확인 · ${rule.label}`,desc:rule.advice,evidence:'대화 기록에서 해당 항목의 명확한 설명을 찾지 못했습니다.',priority:3});
+ }
+ for(const e of data){
+   if(e.speaker!=='staff')continue;
+   for(const s of sentences(e.text)){
+     if(guaranteeClaim(s))add({kind:'risk',ruleId:'loss',id:e.id,title:'원금보장 확약 가능성',desc:'원금 비보장 ELS 상담에서 원금보장을 확약하는 듯한 표현입니다. 손실 구조를 설명하고 발언을 정정하세요.',evidence:s,priority:0});
+     if(profitClaim(s))add({kind:'risk',ruleId:'payoff',id:e.id,title:'확정수익·무조건 수익 표현',desc:'ELS 수익은 약정 조건에 따릅니다. 수익 조건과 손실 가능성을 함께 설명하세요.',evidence:s,priority:0});
+     if((lossDenial(s)||misleadingSafe(s))&&!denial(s))add({kind:'risk',ruleId:'loss',id:e.id,title:'손실 위험 축소·예금 오인 표현',desc:'실제 ELS를 예금처럼 안전하다고 단정하는 설명은 위험할 수 있습니다. 구조화된 위험 설명을 제공하세요.',evidence:s,priority:0});
+     if(test(s,/(?:예금자\s*보호|예금\s*보험)/)&&test(s,/(?:적용\s*됩니다|대상\s*입니다|보호(?:됩니다|받을\s*수\s*있)|도\s*됩니다)/)&&!test(s,/(?:아니|않|안\s*됩|되지|비대상|없)/))add({kind:'risk',ruleId:'deposit',id:e.id,title:'예금자보호 가능하다는 잘못된 안내 의심',desc:'ELS는 예금자보호 대상이 아닙니다. 해당 안내를 검토하고 정정하세요.',evidence:s,priority:0});
+     if(test(s,/(?:일단\s*(?:서명|가입)|서명부터|설명은\s*나중|가입부터|그냥\s*넘어가|복잡하니까\s*넘어가)/))add({kind:'risk',ruleId:'comprehension',id:e.id,title:'설명 생략·가입 우선 유도 의심',desc:'핵심 상품 내용·위험 설명과 고객 이해 확인을 먼저 진행하세요.',evidence:s,priority:0});
+   }
+ }
+ // Match open customer questions to subsequent banker explanations; unanswered if weak or entirely missing.
+ for(let i=0;i<data.length;i++){
+   const e=data[i];if(e.speaker!=='customer'||!question(e.text))continue;
+   const following=data.slice(i+1);
+   // 이전 고객 질문의 후속 보완 설명도 인정 (시연용 휴리스틱).
+   const staffWindow=following.filter(x=>x.speaker==='staff');
+   for(const id of customerTopics(e.text)){
+     const strong=staffWindow.some(s=>assess(id,s.text).score===2);
+     if(strong)continue;
+     const replied=staffWindow.find(s=>assess(id,s.text).score>0);
+     const base=RULE_BY_ID[id];
+     add({kind:'question',ruleId:id,id:e.id,title:`고객 질문 미해결 가능성 · ${base.label}`,desc:(replied?'관련 언급은 있지만 충분한 답변 여부를 재확인하세요. ':'질문에 대한 구체적인 답변이 기록되지 않았습니다. ')+base.advice,evidence:e.text,priority:1});
+   }
+ }
+ alerts.sort((a,b)=>a.priority-b.priority||(a.id||0)-(b.id||0));
+ return {states,alerts,done:Object.values(states).filter(x=>x.status==='done').length,total:RULES.length,entries:data};
+}
+return {RULES,DEMOS,analyze,assess,guaranteeClaim,profitClaim,denial,customerTopics};
+});
+
+</script>
+<script>
+'use strict';
+const $=id=>document.getElementById(id);
+const {RULES, DEMOS, analyze}=FinanceVoiceEngine;
+let entries=[], finished=false, nextId=1, startTime=null, timer=null, pendingFinish=false;
+let demoQueue=[], demoTimer=null;
+const escapeHtml=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const timeText=d=>new Date(d||Date.now()).toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
+const category=()=>$('category').value;
+let desiredMic=false, rec=null, recState='idle', restartTimer=null, stopTimer=null;
+let sessionSerial=0, recInterim='', speechBase='', speechChunks=[], transientError='', restarts=0, speakerAtStart='staff';
+function startTimer(){
+  if(startTime)return; startTime=Date.now();
+  if(timer)clearInterval(timer);
+  timer=setInterval(()=>{const seconds=Math.floor((Date.now()-startTime)/1000);$('statTime').textContent=`${String(Math.floor(seconds/60)).padStart(2,'0')}:${String(seconds%60).padStart(2,'0')}`;},1000);
+  $('sessionStatus').textContent='진행 중';
+}
+function appendEntry(speaker,text){
+  invalidateSale();
+  const clean=String(text||'').replace(/\s+/g,' ').trim();if(!clean)return;
+  entries.push({id:nextId++,speaker,text:clean,at:new Date().toISOString()});
+  startTimer();finished=false;render();
+}
+function currentAnalysis(){return analyze(entries,{finished,category:category()});}
+function jumpTo(id){if(!id)return;const el=$('entry-'+id);if(el){el.scrollIntoView({behavior:'smooth',block:'center'});el.focus({preventScroll:true});}}
+
+// ----- 금융소리망 4.0 : 클라이언트 전용 가상 가입 차단 상태 머신 -----
+let reviewerConfirmed=false, simulatedApproved=false, saleDecisionNo='', gateReady=false;
+let latestGateReasons=[];
+function invalidateSale(){
+  if(simulatedApproved){simulatedApproved=false;saleDecisionNo='';}
+  reviewerConfirmed=false;
+  const ck=$('reviewCheck');if(ck)ck.checked=false;
+}
+function riskResolution(alert){
+  // 위험 발언은 단순히 '나중에 설명했다'는 이유만으로 해소되지 않는다.
+  // 이후 명시적 정정과 그 이후 고객의 구체적 이해 응답이 둘 다 있어야 재검토 후보가 된다.
+  if(!alert.id||alert.kind!=='risk')return null;
+  const following=entries.filter(e=>e.id>alert.id);
+  const correctionFor=(text)=>{
+    const t=String(text||'').replace(/\s+/g,' ');
+    const admits=/(?:앞서|이전|정정|잘못|오해|사과|다시\s*말씀|바로잡)/.test(t);
+    if(!admits)return false;
+    if(alert.title.includes('원금보장'))return /(?:원금|투자금)/.test(t)&&/(?:보장되지|보장하지\s*않|비보장|전액\s*손실|일부\s*또는\s*전액)/.test(t);
+    if(alert.title.includes('확정수익'))return /(?:수익|조기\s*상환)/.test(t)&&/(?:조건|확정\s*아니|반드시\s*아니|보장되지|손실\s*가능)/.test(t);
+    if(alert.title.includes('예금자보호'))return /예금자\s*보호/.test(t)&&/(?:비대상|대상(?:이|은)?\s*(?:아니|아닙)|보호되지)/.test(t);
+    if(alert.title.includes('생략'))return /(?:설명|가입|서명)/.test(t)&&/(?:충분히|먼저|전부|핵심|재설명|확인)/.test(t);
+    return /(?:손실|위험|안전|예금)/.test(t)&&/(?:손실\s*가능|손실할\s*수|위험|안전한\s*예금이\s*아니)/.test(t);
+  };
+  for(const correction of following){
+    if(correction.speaker!=='staff'||!correctionFor(correction.text))continue;
+    const ack=entries.find(e=>e.id>correction.id&&e.speaker==='customer'&&/(?:이해했|이해했습니다|알겠습니다|확인했습니다)/.test(e.text)&&!/(?:이해\s*못|잘\s*모르|이해가\s*안)/.test(e.text)&&/(?:정정|원금|손실|위험|예금자\s*보호|조기\s*상환|설명)/.test(e.text));
+    if(ack)return {correctionId:correction.id, ackId:ack.id};
+  }
+  return null;
+}
+function gateAssessment(report){
+  const unresolved=[],resolved=[];
+  for(const a of report.alerts){
+    if(a.kind==='risk'){
+      const evidence=riskResolution(a);
+      if(evidence)resolved.push({alert:a,evidence});else unresolved.push(a);
+    }else unresolved.push(a);
+  }
+  const suitabilityConcerns=entries.filter(e=>e.speaker==='customer'&&/(?:노후\s*자금|생활비|전\s*재산|전세\s*보증금|손실.{0,15}(?:감수|감내).{0,8}(?:어렵|못|불가)|원금\s*손실.{0,14}(?:못|싫|불안))/.test(e.text));
+  const allDone=report.done===report.total&&report.total>0;
+  const clear=unresolved.length===0&&suitabilityConcerns.length===0;
+  const contentReady=finished&&allDone&&clear&&entries.length>0&&!desiredMic;
+  const ready=contentReady&&reviewerConfirmed;
+  const reasons=[];
+  if(!entries.length)reasons.push('상담 발언이 없습니다. 먼저 가상 상담을 시작해 주세요.');
+  if(!finished)reasons.push('상담 종료·최종 점검 버튼을 눌러 주세요.');
+  const gaps=RULES.filter(r=>report.states[r.id].status!=='done');
+  for(const g of gaps)reasons.push('설명 근거 부족: '+g.label+' — '+(report.states[g.id].reason||g.advice));
+  for(const a of unresolved)reasons.push(a.title+' — '+a.desc);
+  for(const concern of suitabilityConcerns)reasons.push('손실 감내 수준 추가 확인 필요: 고객 발언 “'+concern.text.slice(0,85)+'” · 이 시연에서는 가입을 차단합니다. 공식 적합성 심사가 필요합니다.');
+  if(contentReady&&!reviewerConfirmed)reasons.push('담당자 별도 확인 체크가 필요합니다.');
+  return {allDone,clear,contentReady,ready,reasons,unresolved,resolved};
+}
+function renderSaleGate(report){
+  const g=gateAssessment(report); gateReady=g.ready;
+  if(simulatedApproved&&!g.ready){simulatedApproved=false;saleDecisionNo='';}
+  const completed=simulatedApproved;
+  $('gateHero').className='gatehero '+(completed?'approved':g.ready?'ready':'');
+  $('gateIcon').textContent=completed?'✓':g.ready?'🔓':'🔒';
+  $('gateTitle').textContent=completed?'가상 가입 진행 완료':g.ready?'가입 절차 잠금 해제':'가입 절차 차단 중';
+  $('gateSummary').textContent=completed?'시연용 가입 절차를 통과했습니다. 실제 금융거래는 이루어지지 않았습니다.':g.ready?'시연용 4단계 조건을 충족하여 가상 가입 버튼이 활성화되었습니다.':
+    (g.allDone?'설명 근거가 확인되었으나 추가 검증이 필요합니다.':`설명 확인 ${report.done}/${report.total}개 · 미충족 항목이 남아 있습니다.`);
+  const steps=[['stepFinish',finished],['stepRules',g.allDone],['stepSafety',g.clear],['stepHuman',reviewerConfirmed]];
+  for(const [id,passed] of steps){const el=$(id);el.className='gatestep '+(passed?'pass':'fail');el.querySelector('.mark').textContent=passed?'✓':'○';}
+  const checkbox=$('reviewCheck'); checkbox.disabled=!g.contentReady||completed;checkbox.checked=reviewerConfirmed;
+  const sale=$('saleButton');sale.disabled=!g.ready||completed;
+  sale.textContent=completed?'✓ 가상 가입 시연 완료':g.ready?'가입 절차 진행 (시연) →':'🔒 가상 가입 진행 잠금';
+  $('gateReasonTitle').textContent=completed?'가상 가입 시연 결과':g.ready?'진행 조건 충족':'가입 차단 사유 ('+g.reasons.length+'건)';
+  const list=$('gateReasonsList');list.textContent='';
+  const items=completed?['가상 가입 진행 완료 · 실제 계약 또는 주문이 생성되지 않았습니다.']:
+    g.ready?['가상 가입 조건이 모두 충족되었습니다. 실제 금융거래는 불가능합니다.']:g.reasons;
+  latestGateReasons=items;
+  items.slice(0,7).forEach((text,i)=>{const li=document.createElement('li');const dot=document.createElement('span');dot.className='dot'+((completed||g.ready)?' ok':'');dot.textContent=(completed||g.ready)?'✓':'•';const body=document.createElement('span');body.textContent=text;li.append(dot,body);list.append(li);});
+  if(items.length>7){const li=document.createElement('li');li.textContent=`그 외 ${items.length-7}건 · 오른쪽 ELS 점검 및 알림 화면에서 전체 확인`;list.append(li);}
+  const res=$('gateResolved');res.hidden=!g.resolved.length;res.textContent=g.resolved.length?`✓ 과거 위험 발언 ${g.resolved.length}건은 후속 정정·고객 확인 발언을 탐지했습니다. 담당자의 별도 검토가 여전히 필요합니다.`:'';
+  const note=$('gateApprovalNotice');note.hidden=!completed;if(completed)note.textContent='시연 확인번호: '+saleDecisionNo+' · 실제 은행 가입/계약은 발생하지 않았습니다.';
+}
+function openBlockedReasons(){
+  const e=$('gateReasons'); e.scrollIntoView({behavior:'smooth',block:'center'});
+  e.style.outline='3px solid #6a9dea';setTimeout(()=>{e.style.outline='';},1600);
+}
+function resumeExplaining(){
+  if(simulatedApproved){alert('이미 가상 가입 시연이 완료되었습니다. 새 상담을 시작하려면 전체 초기화를 눌러 주세요.');return;}
+  if(desiredMic){$('userText').focus();return;}
+  invalidateSale(); finished=false; $('sessionStatus').textContent='추가 설명 진행 중';
+  render(); $('userText').scrollIntoView({behavior:'smooth',block:'center'});$('userText').focus();
+}
+function processMockSale(){
+  const g=gateAssessment(currentAnalysis());
+  if(!g.ready||simulatedApproved){openBlockedReasons();return;}
+  simulatedApproved=true;saleDecisionNo='DEMO-'+new Date().toISOString().replace(/[-:TZ.]/g,'').slice(0,14);
+  render(); $('saleGate').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function recoverAfterBad(){
+  if(desiredMic){$('micHelp').textContent='마이크를 수동 종료한 다음 보완 시연을 실행해 주세요.';return;}
+  if(!entries.length){startDemo('bad');return;}
+  clearDemo(); invalidateSale();
+  const supplements=[
+    ['staff','앞서 원금을 보장한다고 말씀드린 것은 잘못입니다. 정정합니다. 이 ELS는 원금이 보장되지 않으며 지수 하락 시 원금 일부 또는 전액을 손실할 수 있습니다.'],
+    ['staff','앞서 무조건 수익이 난다고 말한 것은 잘못입니다. 수익은 조기상환 조건을 충족한 경우에만 지급되며 손실이 날 수 있습니다.'],
+    ['staff','앞서 안전한 예금이라고 안내한 점도 잘못이었습니다. 이 ELS는 예금과 다른 투자상품으로 손실 위험이 있습니다.'],
+    ['staff','앞서 가입을 서두르도록 안내한 것은 잘못이었습니다. 가입 전에 핵심 설명을 충분히 진행하겠습니다.'],
+    ['staff','앞서 예금자보호가 된다는 안내는 잘못되었습니다. 정정합니다. 이 상품은 예금자보호 비대상입니다.'],
+    ...DEMOS.good.filter((_,i)=>![2,5,8,10,11,12,13,14].includes(i)),
+    ['staff','발행사인 증권사의 신용상태가 악화되거나 부도가 나면 지급금을 돌려받지 못할 신용위험도 존재합니다.'],
+    ['staff','고객님의 투자목적과 투자경험, 손실을 감내할 수 있는 수준은 어떠신가요?'],
+    ['customer','투자 경험은 있지만 여유자금이며 원금손실 위험을 감수할 수 있는 범위입니다.'],
+    ['staff','상품 설명과 위험 안내를 다시 드렸습니다. 앞서 정정한 원금 전액 손실 가능성과 예금자보호 비대상, 조기상환 조건을 이해하셨나요?'],
+    ['customer','네, 정정된 설명을 이해했습니다. 원금 전액 손실과 예금자보호 비대상, 조기상환 조건을 이해했습니다.']
+  ];
+  demoQueue=supplements.slice();runDemoStep(); demoTimer=setInterval(runDemoStep,360);
+}
+
+function render(){
+  const report=currentAnalysis();const {states,alerts,done,total}=report;
+  $('statLines').textContent=entries.length;
+  $('statDone').textContent=`${done} / ${total}`;
+  $('statAlerts').textContent=alerts.length;
+  $('transcriptCount').textContent=`${entries.length}개 발언`;
+  $('progressLabel').textContent=`${done}/${total} 근거 확인`;
+  $('progressBar').style.width=`${(done/total)*100}%`;
+  $('alertLabel').textContent=`${alerts.length}건`;
+  const transcript=$('transcript');transcript.textContent='';
+  if(!entries.length){
+    transcript.innerHTML='<div class="empty"><div class="em">≋</div><strong>상담 기록이 없습니다</strong><p>마이크를 수동으로 켜고 원하는 만큼 말한 후 수동 종료하거나<br>시연 대화를 선택해 보세요.</p></div>';
+  }else{
+    const flagged=new Set(alerts.map(a=>a.id).filter(Boolean));
+    for(const e of entries){
+      const item=document.createElement('div');item.className=`utterance ${e.speaker==='staff'?'staff':'customer'}${flagged.has(e.id)?' highlight':''}`;item.id='entry-'+e.id;item.tabIndex=-1;
+      item.innerHTML=`<div class="avatar">${e.speaker==='staff'?'직원':'고객'}</div><div class="message"><div class="meta">${timeText(e.at)}</div><div class="body">${escapeHtml(e.text)}</div>${flagged.has(e.id)?'<div class="warnmark">검토가 필요한 발언</div>':''}</div>`;
+      transcript.append(item);
+    }
+    transcript.scrollTop=transcript.scrollHeight;
+  }
+  const check=$('checkItems');check.textContent='';
+  for(const rule of RULES){
+    const state=states[rule.id]; const word=state.status==='done'?'발언 근거':state.status==='review'?'추가 검토':state.status==='missing'?'미확인':'대기 중';
+    const row=document.createElement('div');row.className='checkrow';
+    row.innerHTML=`<div class="statusicon ${state.status}">${state.status==='done'?'✓':state.status==='review'?'!':state.status==='missing'?'×':'–'}</div><div class="checkmeta"><strong>${escapeHtml(rule.label)}</strong><small>${escapeHtml(state.reason||rule.description)}</small></div><span class="statusword ${state.status}">${word}</span>`;
+    if(state.entryId){row.title='관련 발언으로 이동';row.tabIndex=0;row.setAttribute('role','button');row.addEventListener('click',()=>jumpTo(state.entryId));row.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();jumpTo(state.entryId);}});}
+    check.append(row);
+  }
+  const panel=$('alerts');panel.textContent='';
+  if(!alerts.length){
+    const box=document.createElement('div');box.className='good';box.textContent=entries.length?'현재 규칙 기반 탐지 알림이 없습니다. 이는 법률상 적정하다는 의미가 아닙니다.':'시연 대화를 실행하거나 음성/텍스트를 입력하면 근거 기반 점검 결과가 표시됩니다.';panel.append(box);
+  } else for(const alert of alerts){
+    const box=document.createElement('div');box.className='alert'+(alert.kind==='question'?' question':'')+(alert.kind==='missing'?' end':'');
+    const heading=document.createElement('strong');heading.textContent=alert.title;
+    const desc=document.createElement('p');desc.textContent=alert.desc;
+    const evidence=document.createElement('span');evidence.className='evidence';evidence.textContent=alert.evidence?'근거: “'+alert.evidence+'”':'관련 발언 없음';box.append(heading,desc,evidence);
+    if(alert.id){const jump=document.createElement('button');jump.className='jump';jump.textContent='관련 발언으로 이동 ↗';jump.addEventListener('click',()=>jumpTo(alert.id));box.append(jump);}
+    panel.append(box);
+  }
+  renderSaleGate(report);
+}
+function addManual(){const txt=$('userText').value.trim();if(!txt)return;appendEntry($('speaker').value,txt);$('userText').value='';}
+function clearDemo(){if(demoTimer){clearInterval(demoTimer);demoTimer=null;}demoQueue=[];}
+function resetAll(){invalidateSale();pendingFinish=false;endMic({commit:false});clearDemo();entries=[];nextId=1;finished=false;startTime=null;if(timer){clearInterval(timer);timer=null;}$('statTime').textContent='00:00';$('sessionStatus').textContent='대기 중';$('userText').value='';$('interimText').textContent='초기화 완료 · 화자 선택 후 마이크를 켜세요.';render();}
+function performFinalize(){clearDemo();finished=true;if(timer){clearInterval(timer);timer=null;}$('sessionStatus').textContent='상담 종료 · ELS 설명 점검';render();}
+function finalize(){if(desiredMic||rec){pendingFinish=true;endMic({commit:true});return;}performFinalize();}
+function runDemoStep(){if(!demoQueue.length)return;const [speaker,text]=demoQueue.shift();appendEntry(speaker,text);if(!demoQueue.length){clearDemo();finished=true;$('sessionStatus').textContent='시연 완료 · 규칙 점검';if(timer)clearInterval(timer);render();}}
+function startDemo(kind){endMic({commit:true});resetAll();demoQueue=DEMOS[kind].slice();runDemoStep();demoTimer=setInterval(runDemoStep,700);}
+function saveReport(){if(!entries.length){alert('저장할 상담 기록이 없습니다.');return;}
+  const report=currentAnalysis();const lines=['금융소리망 4.0 · 규칙 기반 상담 점검 결과','주의: 시연용 홍콩 H지수 ELS 상담 기록의 발언 탐지 결과이며 금융소비자보호법 준수/위반에 대한 법적 판정이 아닙니다.','상품 유형: '+$('category').selectedOptions[0].textContent,'저장일시: '+new Date().toLocaleString('ko-KR'),'','[상담 대화]',...entries.map(e=>`${timeText(e.at)} | ${e.speaker==='staff'?'은행원':'고객'} | ${e.text}`),'','[항목별 결과]',...RULES.map(r=>`${r.label}: ${report.states[r.id].status} / ${report.states[r.id].reason||'근거 없음'}`),'','[알림]',...report.alerts.map(a=>`${a.title}\n${a.desc}\n근거: ${a.evidence}`),'','[4.0 시연용 가입 통제]',...gateAssessment(report).reasons,`시연 승인: ${simulatedApproved?'예: '+saleDecisionNo:'아니오'}`];
+  const blob=new Blob([lines.join('\n')],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`금융소리망_분석결과_${new Date().toISOString().slice(0,10)}.txt`;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1500);
+}
+function setMicState(s,tip){
+  recState=s;
+  const active=desiredMic;
+  const btn=$('micBtn');
+  btn.textContent=s==='stopping'?'◌ 종료 처리 중…':active?'■ 마이크 종료 · 발언 등록':'🎤 마이크 켜기 (수동)';
+  btn.classList.toggle('mic-active',active||s==='stopping');btn.setAttribute('aria-pressed',active?'true':'false');btn.disabled=s==='stopping';
+  $('speaker').disabled=active;
+  $('addBtn').disabled=active;
+  const lbl=s==='stopping'?'종료 처리 중':active?(s==='listening'?'듣는 중 · 수동 종료':s==='reconnecting'?'음성인식 재연결 중':'마이크 연결 중'):'마이크 대기';
+  $('livePill').textContent=lbl;$('livePill').className='pill '+(active?'live':'off');
+  if(tip)$('micHelp').textContent=tip;
+}
+function clearMicTimers(){if(restartTimer!==null){clearTimeout(restartTimer);restartTimer=null;}if(stopTimer!==null){clearTimeout(stopTimer);stopTimer=null;}}
+function segmentsText(){return [speechBase,...speechChunks].filter(Boolean).join(' ').trim();}
+function updateDraft(){const draft=[segmentsText(),recInterim].filter(Boolean).join(' ').trim();$('userText').value=draft;if(desiredMic)$('interimText').textContent=recInterim?'인식 중: '+recInterim:('받아쓰기 중 · '+(speechChunks.length?'텍스트가 누적되고 있습니다.':'말씀해 주세요.'));}
+function rememberSegment(text){const txt=String(text||'').replace(/\s+/g,' ').trim();if(!txt)return;const prev=speechChunks[speechChunks.length-1]||'';if(prev===txt||prev.endsWith(txt))return;speechChunks.push(txt);}
+function flushInterim(){if(recInterim.trim()){rememberSegment(recInterim);recInterim='';updateDraft();}}
+function micErrorMessage(kind){return ({'not-allowed':'마이크 권한이 차단됐습니다. 크롬 사이트 설정에서 권한을 확인하세요.','service-not-allowed':'브라우저 음성인식 서비스가 차단됐습니다.','network':'음성인식 서비스 네트워크 오류입니다. 인터넷 연결 상태를 확인하세요.','audio-capture':'마이크 장치를 찾거나 사용할 수 없습니다.','language-not-supported':'이 환경에서 한국어 음성인식을 지원하지 않습니다.','no-speech':'잠시 음성이 감지되지 않아 다시 연결합니다.','aborted':'음성인식이 중단되어 다시 연결합니다.'})[kind]||`음성인식 오류: ${kind}`;}
+function scheduleReconnect(session){
+  if(!desiredMic||session!==sessionSerial)return;
+  // Web Speech may terminate a recognition session on silence despite continuous=true.
+  // Recreate an instance ONLY after receiving onend. Never call start twice on one object.
+  const pause=Math.min(350+Math.max(0,restarts-2)*400,3000);
+  restartTimer=setTimeout(()=>{restartTimer=null;if(desiredMic&&session===sessionSerial)openRecognizer(session);},pause);
+  setMicState('reconnecting',`마이크 유지 요청 중 · 브라우저가 인식을 종료해 ${pause/1000}초 후 재연결합니다. 이 사이의 말은 누락될 수 있습니다.`);
+}
+function openRecognizer(session){
+  if(!desiredMic||session!==sessionSerial||rec!==null)return;
+  const Speech=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!Speech){endMic({commit:false, message:'이 브라우저는 Web Speech 음성인식을 지원하지 않습니다. 크롬/엣지를 사용해 주세요.'});return;}
+  const instance=new Speech();rec=instance;restarts++;
+  instance.lang='ko-KR';instance.continuous=true;instance.interimResults=true;instance.maxAlternatives=1;
+  let seen=new Set();let hadFinal=false;let hasTerminalError=false;
+  instance.onstart=()=>{if(rec!==instance||!desiredMic)return;setMicState('listening','마이크 듣는 중 · 발언을 마칠 때까지 계속 말씀하고, 직접 마이크 종료 버튼을 누르세요.');};
+  instance.onresult=e=>{
+    if(rec!==instance||session!==sessionSerial)return;
+    let ongoing='';
+    for(let i=0;i<e.results.length;i++){
+      const result=e.results[i];if(!result||!result[0])continue;
+      const str=result[0].transcript;
+      if(result.isFinal){if(!seen.has(i)){seen.add(i);hadFinal=true;rememberSegment(str);}}
+      else ongoing+=str;
+    }
+    recInterim=ongoing;updateDraft();
+  };
+  instance.onerror=e=>{
+    if(rec!==instance||session!==sessionSerial)return;
+    const fatal=['not-allowed','service-not-allowed','audio-capture','language-not-supported','network'].includes(e.error);
+    transientError=micErrorMessage(e.error);
+    if(fatal){hasTerminalError=true;endMic({commit:true,message:transientError});}
+    else if(desiredMic)setMicState('reconnecting',transientError);
+  };
+  instance.onend=()=>{
+    if(rec!==instance||session!==sessionSerial)return;
+    flushInterim();rec=null;
+    if(!desiredMic){if(recState==='stopping')finishSpeechSession();return;}
+    if(hasTerminalError)return;
+    scheduleReconnect(session);
+  };
+  setMicState('starting',restarts>1?'음성인식을 다시 연결하는 중…':'마이크 연결 중…');
+  try{instance.start();}catch(err){
+    if(rec===instance)rec=null;
+    // A new SpeechRecognition instance is used. Retrying only occurs in a later tick.
+    if(desiredMic&&session===sessionSerial){if(restarts>5){endMic({commit:true,message:'브라우저에서 음성인식을 반복 시작하지 못했습니다. 다시 시도해 주세요.'});}else scheduleReconnect(session);}
+  }
+}
+function finishSpeechSession(){
+  clearMicTimers();flushInterim();
+  const text=segmentsText();
+  rec=null;setMicState('idle',transientError||'수동 종료 완료 · 발언이 상담 기록에 반영되었습니다.');
+  $('interimText').textContent=text?'✓ 마이크를 직접 종료했습니다. 발언을 등록했습니다.':'마이크를 종료했지만 인식된 말이 없습니다.';
+  if(text){appendEntry(speakerAtStart,text);$('userText').value='';}
+  speechBase='';speechChunks=[];recInterim='';transientError='';
+  if(pendingFinish){pendingFinish=false;performFinalize();}
+}
+function endMic({commit=true,message=''}={}){
+  if(!desiredMic&&!rec)return;
+  desiredMic=false;clearMicTimers();
+  if(message)transientError=message;
+  const current=rec;
+  if(!current){
+    if(commit)finishSpeechSession();else{speechBase='';speechChunks=[];recInterim='';setMicState('idle',message||'마이크 종료');}return;
+  }
+  if(!commit){sessionSerial++;rec=null;try{current.abort();}catch(e){}speechBase='';speechChunks=[];recInterim='';setMicState('idle',message||'마이크 종료');return;}
+  setMicState('stopping','마이크 종료 요청 중 · 마지막 음성 결과를 반영하고 있습니다.');
+  try{current.stop();}catch(e){rec=null;finishSpeechSession();return;}
+  const stopSession=sessionSerial;
+  stopTimer=setTimeout(()=>{
+    if(sessionSerial!==stopSession||rec!==current||desiredMic)return;
+    try{current.abort();}catch(e){}
+    rec=null;finishSpeechSession();
+  },3500);
+}
+function beginMic(){
+  if(desiredMic||rec)return;
+  if(simulatedApproved){$('micHelp').textContent='가상 가입 시연이 완료됐습니다. 새 상담은 전체 초기화를 눌러 주세요.';return;}
+  invalidateSale();
+  if(['content:','file:'].includes(location.protocol)||!window.isSecureContext){$('micHelp').textContent='마이크는 HTTPS 웹사이트에서 실행해 주세요. 파일을 직접 열면 제한될 수 있습니다.';return;}
+  if(!(window.SpeechRecognition||window.webkitSpeechRecognition)){$('micHelp').textContent='현재 브라우저에서 음성인식 API를 지원하지 않습니다.';return;}
+  clearDemo();desiredMic=true;sessionSerial++;restarts=0;
+  speechBase=$('userText').value.trim();speechChunks=[];recInterim='';transientError='';speakerAtStart=$('speaker').value;
+  setMicState('starting','수동 녹취 시작 · 종료 버튼을 누를 때까지 받아쓰기를 유지합니다.');
+  startTimer();openRecognizer(sessionSerial);
+}
+function toggleMic(){if(desiredMic)endMic({commit:true});else beginMic();}
+// Browser permission and microphone hardware diagnostic. This does NOT prove STT service availability.
+async function diagnoseMic(){
+  const b=$('micDiag');
+  if(desiredMic){$('micHelp').textContent='먼저 마이크 종료 버튼을 누른 후 진단해 주세요.';return;}
+  const out=message=>{$('micHelp').textContent=message;$('interimText').textContent=message;};
+  b.disabled=true;b.textContent='◌ 진단 중…';
+  try{
+    if(!window.isSecureContext||!location.protocol.startsWith('https')&&location.hostname!=='localhost'&&location.hostname!=='127.0.0.1'){
+      out('진단: 안전한 HTTPS 주소가 아닙니다. 관리자 미리보기가 아닌 https://…netlify.app 사이트를 새 탭에서 직접 여세요.');return;
+    }
+    if(window.self!==window.top){
+      out('진단: Netlify 관리자 미리보기 안에서 열려 있습니다. 웹사이트 주소를 별도 탭에서 열어 마이크를 사용해 주세요.');return;
+    }
+    if(!(window.SpeechRecognition||window.webkitSpeechRecognition)){
+      out('진단: 현재 브라우저에 SpeechRecognition이 없습니다. PC Chrome 최신 버전을 이용해 주세요.');return;
+    }
+    if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
+      out('진단: 이 브라우저에서 마이크 접근 API를 이용할 수 없습니다. HTTPS/브라우저 설정을 확인해 주세요.');return;
+    }
+    out('마이크 접근 권한을 확인하는 중입니다. 권한 요청이 뜨면 허용해 주세요.');
+    const stream=await navigator.mediaDevices.getUserMedia({audio:true});
+    stream.getTracks().forEach(t=>t.stop());
+    out('진단 결과: 마이크 장치 접근은 성공했습니다. 이제 「마이크 켜기」를 눌러 음성인식을 시험해 주세요. 그래도 안 되면 아래에 표시되는 음성인식 오류를 알려주세요.');
+  }catch(err){
+    const name=err&&err.name||'unknown';
+    const guide=({'NotAllowedError':'사이트의 마이크 권한을 허용하고 Windows 개인정보 및 보안 설정도 확인해 주세요.','PermissionDeniedError':'사이트 마이크 권한을 허용해 주세요.','NotFoundError':'연결된 마이크 장치가 없습니다.','NotReadableError':'다른 앱이 마이크를 점유하는지 확인해 주세요.','AbortError':'장치 연결이 중단됐습니다. 브라우저를 재시작해 보세요.'})[name]||'Chrome 주소창 왼쪽 사이트 설정과 운영체제 마이크 설정을 확인해 주세요.';
+    out(`마이크 진단 오류 (${name}). ${guide}`);
+  }finally{b.disabled=false;b.textContent='🔧 마이크 진단';}
+}
+$('addBtn').addEventListener('click',addManual);
+$('micBtn').addEventListener('click',toggleMic);
+$('micDiag').addEventListener('click',diagnoseMic);
+$('userText').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey&&!desiredMic){e.preventDefault();addManual();}});
+$('resetBtn').addEventListener('click',()=>{if(entries.length&&!confirm('모든 상담 내용을 삭제할까요?'))return;resetAll();});
+$('finishBtn').addEventListener('click',finalize);
+$('demoBad').addEventListener('click',()=>startDemo('bad'));
+$('demoGood').addEventListener('click',()=>startDemo('good'));
+$('demoContrast').addEventListener('click',()=>startDemo('contrast'));
+$('demoRecover').addEventListener('click',recoverAfterBad);
+$('saleButton').addEventListener('click',processMockSale);
+$('gateReviewButton').addEventListener('click',openBlockedReasons);
+$('resumeButton').addEventListener('click',resumeExplaining);
+$('reviewCheck').addEventListener('change',e=>{reviewerConfirmed=!!e.target.checked;render();});
+$('demoStep').addEventListener('click',()=>{if(!demoQueue.length){demoQueue=DEMOS.bad.slice();}if(demoTimer){clearInterval(demoTimer);demoTimer=null;}runDemoStep();});
+$('category').addEventListener('change',render);
+$('profileToggle').addEventListener('click',()=>{const el=$('productDetail');el.hidden=!el.hidden;$('profileToggle').setAttribute('aria-expanded',String(!el.hidden));$('profileToggle').textContent=el.hidden?'예시 조건 펼치기 ▾':'예시 조건 접기 ▴';});
+$('downloadBtn').addEventListener('click',saveReport);
+window.addEventListener('beforeunload',()=>{if(rec){try{rec.abort();}catch(e){}}});
+render();setMicState('idle','마이크 시작·종료는 직접 버튼으로 제어합니다. 브라우저 자동 종료 시 재연결을 시도합니다.');
+
+</script>
+</body>
+</html>
