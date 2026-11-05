@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>금융소리망 4.0 | 가입 차단형 ELS 상담 검증</title>
+<title>금융소리망 5.0 | AI 음성인식·금융상담 위험 분석</title>
 <style>
 :root{--navy:#0d2344;--navy2:#142f57;--accent:#2363e9;--bg:#f3f6fb;--surface:#fff;--line:#e0e7f1;--muted:#6a7891;--txt:#172843;--green:#138456;--amber:#ad6800;--red:#c73542;--softblue:#ecf3ff;--r:16px}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Pretendard,'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;color:var(--txt);letter-spacing:-.25px}
@@ -48,18 +48,27 @@ button,input,textarea,select{font:inherit}button{cursor:pointer;transition:trans
 .gateriskresolved{color:#107d54;font-size:11px;font-weight:700;margin-top:8px}
 .approvalnotice{font-size:11px;font-weight:700;color:#225c9e;padding:9px 10px;background:#eef5ff;border:1px solid #cadefc;border-radius:8px;margin-top:10px;line-height:1.5}
 @media(max-width:960px){.gatebody{grid-template-columns:1fr}}@media(max-width:530px){.gatebody{padding:12px}.gatehead{padding:14px}.gatedisclaimer{padding:0 13px 13px}.gatesteps{grid-template-columns:1fr 1fr}.gatehero strong{font-size:16px}}
+
+/* V5 탐색·저장 UI: 원본 4.0 스타일 위에 최소 확장 */
+.side-anchor{display:flex;gap:10px;align-items:center;padding:13px 12px;border-radius:10px;text-decoration:none;color:#dbe6fa;font-weight:700;font-size:14px;background:#ffffff12}
+.side-anchor:hover{background:#ffffff25}.v5-chip{color:#fff;background:#1e5ed6;padding:5px 10px;border-radius:999px;font-size:11px;font-weight:750}
+.storagebar{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:18px;padding:11px 14px;background:#e8f1ff;border:1px solid #c8d9f6;border-radius:12px;font-size:12px;color:#31547a;line-height:1.7}
+.storagebar strong{color:#18487e}.storagebar .storage-state{font-weight:750}
+@media(max-width:600px){.storagebar{align-items:flex-start}.header .topactions{gap:6px}}
 </style>
 </head>
 <body>
 <div class="app">
 <aside class="sidebar">
   <div class="brand"><div class="brand-mark">≋</div><div><h1>금융소리망</h1><small>FINANCIAL VOICE GUARD</small></div></div>
-  <div class="side-label">H-INDEX ELS · V4.0</div>
+  <div class="side-label">H-INDEX ELS · V5.0</div>
   <button class="navbtn active" type="button">◉ &nbsp; 상담 모니터링</button>
+  <a class="side-anchor" href="analytics.html">▥ &nbsp; 상담 데이터 분석 <span class="v5-chip">NEW</span></a>
   <div class="smallnote"><b>시연용 소프트웨어</b>이 프로그램은 가상 가입을 잠그는 시연용 소프트웨어입니다. 실제 금융회사 계좌/주문 시스템에 연동되지 않으며 법적 준수 여부를 판정하지 않습니다.</div>
 </aside>
 <main class="main">
-  <div class="header"><div><h2>홍콩 H지수 ELS · 가입 통제형 상담 검증</h2><p>설명이 부족하면 가상 가입을 차단하고, 보완·재검증 후 잠금을 해제합니다.</p></div><div class="topactions"><span class="pill off" id="livePill">마이크 대기</span><button class="btn" id="downloadBtn" type="button">↓ 상담 기록 저장</button><button class="btn warn" id="resetBtn" type="button">전체 초기화</button></div></div>
+  <div class="header"><div><h2>홍콩 H지수 ELS · 가입 통제형 상담 검증</h2><p>설명이 부족하면 가상 가입을 차단하고, 보완·재검증 후 잠금을 해제합니다.</p></div><div class="topactions"><span class="pill off" id="livePill">마이크 대기</span><button class="btn" id="saveDbBtn" type="button">▣ 상담 DB 저장</button><button class="btn" id="downloadBtn" type="button">↓ TXT 다운로드</button><button class="btn warn" id="resetBtn" type="button">전체 초기화</button></div></div>
+  <div class="storagebar"><strong>5.0 로컬 분석 저장소</strong><span>상담 종료·시연 완료 시 현재 브라우저의 IndexedDB에 자동 저장 · 서버 동기화 없음 · 실제 고객 녹취/개인정보 입력 금지</span><span id="saveState" class="storage-state" role="status" aria-live="polite">저장 대기 중</span></div>
   <div class="notice"><b>개인정보·보안 안내:</b> 반드시 가상 상담 내용으로만 시험하세요. 브라우저 음성인식 서비스는 음성을 외부 서버로 전송할 수 있으며, 이 프로토타입은 실사용 고객의 음성·개인정보 처리를 위해 설계되지 않았습니다.</div>
   <section class="stats" aria-label="상담 요약">
     <div class="stat"><div class="label">상담 발언 수</div><div class="num" id="statLines">0</div><div class="sub">직원·고객 전체</div></div>
@@ -113,9 +122,10 @@ button,input,textarea,select{font:inherit}button{cursor:pointer;transition:trans
   </section>
   <section class="scenario"><div><div class="scenario-title">발표용 시연 시나리오</div><p>실제 음성인식 외에도, 미리 작성한 상담 대화를 자동으로 재생해 점검 기능을 시연할 수 있습니다.</p></div><div class="scenario-buttons"><button class="btn warn" id="demoBad" type="button">홍콩 ELS 문제 상담</button><button class="btn" id="demoGood" type="button">정상 ELS 상담 시연</button><button class="btn" id="demoRecover" type="button">문제 상담 보완하기</button><button class="btn" id="demoContrast" type="button">정정 표현 비교</button><button class="btn primary" id="demoStep" type="button">다음 발언 ▶</button></div></section>
   <section class="sourcebox"><strong>분석기준 및 사용상 주의</strong><div>이 프로토타입은 금융소비자보호법 설명의무와 금융당국의 홍콩 H지수 ELS 판매 관행 개선 취지 등을 참고한 <b>교육용 위험 탐지 체크리스트</b>입니다. 발언만으로 적합성·설명의무 이행을 입증하거나 확정할 수 없습니다. 체크리스트의 '근거 확인'도 법적 준수를 의미하지 않습니다.</div><div class="sources"><a target="_blank" rel="noopener noreferrer" href="https://www.law.go.kr/LSW/lsSideInfoP.do?docCls=jo&amp;joBrNo=00&amp;joNo=0019&amp;lsiSeq=277247&amp;urlMode=lsScJoRltInfoR">금융소비자보호법 제19조 ↗</a><a target="_blank" rel="noopener noreferrer" href="https://fsc.go.kr/po020201/84057">금융위 홍콩 H지수 ELS 대책 Q&amp;A ↗</a><a target="_blank" rel="noopener noreferrer" href="https://www.kcie.or.kr/guide/2/14/web_view?content_idx=886&amp;series_idx=">전국투자자교육협의회 ELS 구조 안내 ↗</a></div></section>
-  <div class="foot">금융소리망 4.0 · 홍콩 H지수 ELS 교육/경진대회 시연용 · 음성인식(STT) + 무료 자바스크립트 규칙 엔진 · 생성형 AI가 아니며 금융소비자보호법 준수/위반·고객 적합성의 법적 판정이 아닙니다. 화자는 수동 선택해야 하고, 실제 고객 녹취는 사용하지 마세요. 음성인식 제공자가 음성을 외부 서버에서 처리할 수 있습니다.</div>
+  <div class="foot">금융소리망 5.0 · 홍콩 H지수 ELS 교육/경진대회 시연용 · 음성인식(STT) + 무료 자바스크립트 규칙 엔진 · 생성형 AI가 아니며 금융소비자보호법 준수/위반·고객 적합성의 법적 판정이 아닙니다. 화자는 수동 선택해야 하고, 실제 고객 녹취는 사용하지 마세요. 음성인식 제공자가 음성을 외부 서버에서 처리할 수 있습니다.</div>
 </main>
 </div>
+<script src="sorimang-db.js"></script>
 <script>
 /* 금융소리망 3.0 - 홍콩 H지수 ELS 교육/시연용 규칙 기반 점검 엔진.
  * 실제 법률 위반, 상품 적합성, 완전판매 여부를 판단하지 않습니다.
@@ -300,6 +310,36 @@ return {RULES,DEMOS,analyze,assess,guaranteeClaim,profitClaim,denial,customerTop
 const $=id=>document.getElementById(id);
 const {RULES, DEMOS, analyze}=FinanceVoiceEngine;
 let entries=[], finished=false, nextId=1, startTime=null, timer=null, pendingFinish=false;
+const newSessionId=()=>typeof crypto!=='undefined'&&crypto.randomUUID?crypto.randomUUID():'session-'+Date.now().toString(36)+'-'+Math.random().toString(36).slice(2);
+let sessionId=newSessionId(), sessionSource='manual';
+function estimateReviewPriority(report,gate){
+  // 휴리스틱 점수: 학습된 AI 예측이나 법률 위험도의 추정치가 아님.
+  const missing=RULES.filter(r=>report.states[r.id].status!=='done').length;
+  const risks=gate.unresolved.filter(a=>a.kind==='risk').length;
+  const questions=report.alerts.filter(a=>a.kind==='question').length;
+  return Math.min(100,missing*6+risks*18+questions*8);
+}
+async function saveSessionToLocalDb(){
+  if(!entries.length){$('saveState').textContent='저장할 상담 발언이 없습니다.';return;}
+  if(!window.SorimangDB){$('saveState').textContent='브라우저 DB 모듈을 불러오지 못했습니다.';return;}
+  const report=currentAnalysis();const gate=gateAssessment(report);
+  const record={
+    id:sessionId,version:5,savedAt:new Date().toISOString(),createdAt:entries[0]?.at||new Date().toISOString(),
+    finished,source:sessionSource,product:'가상 홍콩 H지수 ELS',
+    entries:entries.map(e=>({...e})),
+    analysis:{done:report.done,total:report.total,
+      rules:RULES.map(r=>({id:r.id,label:r.label,status:report.states[r.id].status,reason:report.states[r.id].reason||''})),
+      alerts:report.alerts.map(a=>({kind:a.kind||'other',title:a.title||'',desc:a.desc||'',id:a.id||null})),
+      unresolvedRiskCount:gate.unresolved.filter(a=>a.kind==='risk').length,
+      questionCount:report.alerts.filter(a=>a.kind==='question').length,
+      reviewPriority:estimateReviewPriority(report,gate),
+      gateReady:gate.ready,simulatedApproved:!!simulatedApproved}
+  };
+  $('saveState').textContent='로컬 저장 중…';
+  try {await SorimangDB.save(record);$('saveState').textContent='이 브라우저에 저장 완료 · '+new Date().toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'});}
+  catch(err){$('saveState').textContent='저장 실패: '+(err?.message||'브라우저 저장소 접근 오류');console.error(err);}
+}
+
 let demoQueue=[], demoTimer=null;
 const escapeHtml=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const timeText=d=>new Date(d||Date.now()).toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false});
@@ -412,12 +452,12 @@ function processMockSale(){
   const g=gateAssessment(currentAnalysis());
   if(!g.ready||simulatedApproved){openBlockedReasons();return;}
   simulatedApproved=true;saleDecisionNo='DEMO-'+new Date().toISOString().replace(/[-:TZ.]/g,'').slice(0,14);
-  render(); $('saleGate').scrollIntoView({behavior:'smooth',block:'start'});
+  render();void saveSessionToLocalDb(); $('saleGate').scrollIntoView({behavior:'smooth',block:'start'});
 }
 function recoverAfterBad(){
   if(desiredMic){$('micHelp').textContent='마이크를 수동 종료한 다음 보완 시연을 실행해 주세요.';return;}
   if(!entries.length){startDemo('bad');return;}
-  clearDemo(); invalidateSale();
+  clearDemo(); invalidateSale();sessionSource='demo';
   const supplements=[
     ['staff','앞서 원금을 보장한다고 말씀드린 것은 잘못입니다. 정정합니다. 이 ELS는 원금이 보장되지 않으며 지수 하락 시 원금 일부 또는 전액을 손실할 수 있습니다.'],
     ['staff','앞서 무조건 수익이 난다고 말한 것은 잘못입니다. 수익은 조기상환 조건을 충족한 경우에만 지급되며 손실이 날 수 있습니다.'],
@@ -478,13 +518,13 @@ function render(){
 }
 function addManual(){const txt=$('userText').value.trim();if(!txt)return;appendEntry($('speaker').value,txt);$('userText').value='';}
 function clearDemo(){if(demoTimer){clearInterval(demoTimer);demoTimer=null;}demoQueue=[];}
-function resetAll(){invalidateSale();pendingFinish=false;endMic({commit:false});clearDemo();entries=[];nextId=1;finished=false;startTime=null;if(timer){clearInterval(timer);timer=null;}$('statTime').textContent='00:00';$('sessionStatus').textContent='대기 중';$('userText').value='';$('interimText').textContent='초기화 완료 · 화자 선택 후 마이크를 켜세요.';render();}
-function performFinalize(){clearDemo();finished=true;if(timer){clearInterval(timer);timer=null;}$('sessionStatus').textContent='상담 종료 · ELS 설명 점검';render();}
+function resetAll(){sessionId=newSessionId();sessionSource='manual';$('saveState').textContent='저장 대기 중';invalidateSale();pendingFinish=false;endMic({commit:false});clearDemo();entries=[];nextId=1;finished=false;startTime=null;if(timer){clearInterval(timer);timer=null;}$('statTime').textContent='00:00';$('sessionStatus').textContent='대기 중';$('userText').value='';$('interimText').textContent='초기화 완료 · 화자 선택 후 마이크를 켜세요.';render();}
+function performFinalize(){clearDemo();finished=true;if(timer){clearInterval(timer);timer=null;}$('sessionStatus').textContent='상담 종료 · ELS 설명 점검';render();void saveSessionToLocalDb();}
 function finalize(){if(desiredMic||rec){pendingFinish=true;endMic({commit:true});return;}performFinalize();}
-function runDemoStep(){if(!demoQueue.length)return;const [speaker,text]=demoQueue.shift();appendEntry(speaker,text);if(!demoQueue.length){clearDemo();finished=true;$('sessionStatus').textContent='시연 완료 · 규칙 점검';if(timer)clearInterval(timer);render();}}
-function startDemo(kind){endMic({commit:true});resetAll();demoQueue=DEMOS[kind].slice();runDemoStep();demoTimer=setInterval(runDemoStep,700);}
+function runDemoStep(){if(!demoQueue.length)return;const [speaker,text]=demoQueue.shift();appendEntry(speaker,text);if(!demoQueue.length){clearDemo();finished=true;$('sessionStatus').textContent='시연 완료 · 규칙 점검';if(timer)clearInterval(timer);render();void saveSessionToLocalDb();}}
+function startDemo(kind){endMic({commit:true});resetAll();sessionSource='demo';demoQueue=DEMOS[kind].slice();runDemoStep();demoTimer=setInterval(runDemoStep,700);}
 function saveReport(){if(!entries.length){alert('저장할 상담 기록이 없습니다.');return;}
-  const report=currentAnalysis();const lines=['금융소리망 4.0 · 규칙 기반 상담 점검 결과','주의: 시연용 홍콩 H지수 ELS 상담 기록의 발언 탐지 결과이며 금융소비자보호법 준수/위반에 대한 법적 판정이 아닙니다.','상품 유형: '+$('category').selectedOptions[0].textContent,'저장일시: '+new Date().toLocaleString('ko-KR'),'','[상담 대화]',...entries.map(e=>`${timeText(e.at)} | ${e.speaker==='staff'?'은행원':'고객'} | ${e.text}`),'','[항목별 결과]',...RULES.map(r=>`${r.label}: ${report.states[r.id].status} / ${report.states[r.id].reason||'근거 없음'}`),'','[알림]',...report.alerts.map(a=>`${a.title}\n${a.desc}\n근거: ${a.evidence}`),'','[4.0 시연용 가입 통제]',...gateAssessment(report).reasons,`시연 승인: ${simulatedApproved?'예: '+saleDecisionNo:'아니오'}`];
+  const report=currentAnalysis();const lines=['금융소리망 5.0 · 규칙 기반 상담 점검 결과','주의: 시연용 홍콩 H지수 ELS 상담 기록의 발언 탐지 결과이며 금융소비자보호법 준수/위반에 대한 법적 판정이 아닙니다.','상품 유형: '+$('category').selectedOptions[0].textContent,'저장일시: '+new Date().toLocaleString('ko-KR'),'','[상담 대화]',...entries.map(e=>`${timeText(e.at)} | ${e.speaker==='staff'?'은행원':'고객'} | ${e.text}`),'','[항목별 결과]',...RULES.map(r=>`${r.label}: ${report.states[r.id].status} / ${report.states[r.id].reason||'근거 없음'}`),'','[알림]',...report.alerts.map(a=>`${a.title}\n${a.desc}\n근거: ${a.evidence}`),'','[4.0 시연용 가입 통제]',...gateAssessment(report).reasons,`시연 승인: ${simulatedApproved?'예: '+saleDecisionNo:'아니오'}`];
   const blob=new Blob([lines.join('\n')],{type:'text/plain;charset=utf-8'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=`금융소리망_분석결과_${new Date().toISOString().slice(0,10)}.txt`;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),1500);
 }
 function setMicState(s,tip){
@@ -600,10 +640,10 @@ async function diagnoseMic(){
   b.disabled=true;b.textContent='◌ 진단 중…';
   try{
     if(!window.isSecureContext||!location.protocol.startsWith('https')&&location.hostname!=='localhost'&&location.hostname!=='127.0.0.1'){
-      out('진단: 안전한 HTTPS 주소가 아닙니다. 관리자 미리보기가 아닌 https://…netlify.app 사이트를 새 탭에서 직접 여세요.');return;
+      out('진단: 안전한 HTTPS 주소가 아닙니다. 관리자 미리보기가 아닌 https://…pages.dev 사이트를 새 탭에서 직접 여세요.');return;
     }
     if(window.self!==window.top){
-      out('진단: Netlify 관리자 미리보기 안에서 열려 있습니다. 웹사이트 주소를 별도 탭에서 열어 마이크를 사용해 주세요.');return;
+      out('진단: 관리자 미리보기(iframe) 안에서 열려 있습니다. 배포된 사이트 주소를 새 탭에서 직접 열어 마이크를 사용해 주세요.');return;
     }
     if(!(window.SpeechRecognition||window.webkitSpeechRecognition)){
       out('진단: 현재 브라우저에 SpeechRecognition이 없습니다. PC Chrome 최신 버전을 이용해 주세요.');return;
@@ -639,6 +679,7 @@ $('demoStep').addEventListener('click',()=>{if(!demoQueue.length){demoQueue=DEMO
 $('category').addEventListener('change',render);
 $('profileToggle').addEventListener('click',()=>{const el=$('productDetail');el.hidden=!el.hidden;$('profileToggle').setAttribute('aria-expanded',String(!el.hidden));$('profileToggle').textContent=el.hidden?'예시 조건 펼치기 ▾':'예시 조건 접기 ▴';});
 $('downloadBtn').addEventListener('click',saveReport);
+$('saveDbBtn').addEventListener('click',()=>{void saveSessionToLocalDb();});
 window.addEventListener('beforeunload',()=>{if(rec){try{rec.abort();}catch(e){}}});
 render();setMicState('idle','마이크 시작·종료는 직접 버튼으로 제어합니다. 브라우저 자동 종료 시 재연결을 시도합니다.');
 
