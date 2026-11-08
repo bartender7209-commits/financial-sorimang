@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>금융소리망 5.0 | AI 음성인식·금융상담 위험 분석</title>
+<title>금융소리망 5.5 | 실시간 상담·후보 규칙 비교</title>
 <style>
 :root{--navy:#0d2344;--navy2:#142f57;--accent:#2363e9;--bg:#f3f6fb;--surface:#fff;--line:#e0e7f1;--muted:#6a7891;--txt:#172843;--green:#138456;--amber:#ad6800;--red:#c73542;--softblue:#ecf3ff;--r:16px}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:Pretendard,'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;color:var(--txt);letter-spacing:-.25px}
@@ -55,13 +55,30 @@ button,input,textarea,select{font:inherit}button{cursor:pointer;transition:trans
 .storagebar{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:18px;padding:11px 14px;background:#e8f1ff;border:1px solid #c8d9f6;border-radius:12px;font-size:12px;color:#31547a;line-height:1.7}
 .storagebar strong{color:#18487e}.storagebar .storage-state{font-weight:750}
 @media(max-width:600px){.storagebar{align-items:flex-start}.header .topactions{gap:6px}}
+
+/* 5.5 검토용 비교 블록: 기존 엔진/가상 가입 차단에는 영향을 주지 않음 */
+#liveComparePanel{margin-top:16px;padding:19px 20px;overflow:visible}
+#liveComparePanel h3{margin:0;font-size:17px}#liveComparePanel .lc-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+#liveComparePanel .lc-sub{font-size:12px;color:#647794;line-height:1.7;margin:9px 0 14px}
+#liveComparePanel .lc-tag{color:#2858ad;background:#e9f1ff;border-radius:99px;padding:6px 10px;font-size:11px;font-weight:800}
+#liveComparePanel .lc-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+#liveComparePanel .lc-metric{background:#f4f7fc;border:1px solid #e1e8f3;border-radius:11px;padding:12px}
+#liveComparePanel .lc-metric strong{display:block;font-size:23px;line-height:1.4;font-weight:850}#liveComparePanel .lc-metric span{font-size:11px;color:#576e8c}
+#liveComparePanel .lc-status{font-size:12px;color:#416598;margin:14px 0 9px}
+#liveComparePanel .lc-results{display:grid;gap:8px;max-height:320px;overflow:auto}
+#liveComparePanel .lc-line{border:1px solid #e2e9f5;border-left:4px solid #4c78d9;background:#fbfcff;border-radius:9px;padding:11px 13px}
+#liveComparePanel .lc-line.is-difference{border-left-color:#d79639;background:#fffaf3}
+#liveComparePanel .lc-line b{font-size:12px;color:#243c60}#liveComparePanel .lc-line p{font-size:12px;color:#485b77;line-height:1.6;margin:6px 0;word-break:break-word;white-space:pre-wrap}
+#liveComparePanel .lc-line small{font-size:11px;color:#667b98;line-height:1.5}
+#liveComparePanel .lc-foot{font-size:11px;color:#667b98;line-height:1.7;margin-top:13px}
+@media(max-width:840px){#liveComparePanel .lc-metrics{grid-template-columns:repeat(2,1fr)}}
 </style>
 </head>
 <body>
 <div class="app">
 <aside class="sidebar">
   <div class="brand"><div class="brand-mark">≋</div><div><h1>금융소리망</h1><small>FINANCIAL VOICE GUARD</small></div></div>
-  <div class="side-label">H-INDEX ELS · V5.0</div>
+  <div class="side-label">H-INDEX ELS · V5.5</div>
   <button class="navbtn active" type="button">◉ &nbsp; 상담 모니터링</button>
   <a class="navbtn" href="cloud-analytics.html" style="text-decoration:none">▣ &nbsp; D1 서버 분석</a>
   <a class="navbtn" href="evaluation.html" style="text-decoration:none">◈ &nbsp; 탐지 성능 검증 <span class="v5-chip">5.3</span></a>
@@ -123,9 +140,16 @@ button,input,textarea,select{font:inherit}button{cursor:pointer;transition:trans
       <div class="panel"><div class="panelhead"><h3>⚠ 보완·위험 알림 <span style="font-size:10px;color:#8a9fbb">(무료 규칙 기반 · AI API 없음)</span></h3><span class="kicker" id="alertLabel">0건</span></div><div class="alerts" id="alerts"></div></div>
     </div>
   </section>
+  <section id="liveComparePanel" class="panel" aria-label="5.5 후보 탐지 엔진 동시 비교">
+    <div class="lc-heading"><div><h3>규칙 탐지 엔진 동시 비교</h3><p class="lc-sub">진행 중인 상담의 <b>은행원 발언</b>을 기존 5.3 규칙과 개선 후보 5.4 규칙으로 각각 분석합니다. 음성인식 결과가 발언으로 등록되면 자동 갱신됩니다.</p></div><span class="lc-tag">5.5 연구용 · 기존 가입 차단 로직 유지</span></div>
+    <div class="lc-metrics"><div class="lc-metric"><span>비교 대상 은행원 발언</span><strong id="lcStaff">0건</strong></div><div class="lc-metric"><span>기존 규칙 위험 감지 발언</span><strong id="lcBefore">0건</strong></div><div class="lc-metric"><span>개선 후보 위험 감지 발언</span><strong id="lcAfter">0건</strong></div><div class="lc-metric"><span>두 규칙 판정 불일치</span><strong id="lcDifferent">0건</strong></div></div>
+    <div class="lc-status" id="lcStatus" role="status">상담 발언을 기다리는 중입니다.</div>
+    <div class="lc-results" id="lcResults"><p class="lc-sub">홍콩 ELS 문제 상담 또는 정정 표현 비교 시연을 실행해 보세요.</p></div>
+    <p class="lc-foot"><b>주의:</b> 분류기 판정은 법규 위반 판정·실제 고객 위험 예측이 아닙니다. 이 비교 화면의 위험 감지 건수는 평가 정답이나 정확도 수치가 아닙니다. 기존 가상 가입 잠금/해제와 D1 저장 기능에 영향을 주지 않습니다. 원문은 별도 서버로 전송하지 않습니다. 실제 고객 개인정보를 입력하지 마세요.</p>
+  </section>
   <section class="scenario"><div><div class="scenario-title">발표용 시연 시나리오</div><p>실제 음성인식 외에도, 미리 작성한 상담 대화를 자동으로 재생해 점검 기능을 시연할 수 있습니다.</p></div><div class="scenario-buttons"><button class="btn warn" id="demoBad" type="button">홍콩 ELS 문제 상담</button><button class="btn" id="demoGood" type="button">정상 ELS 상담 시연</button><button class="btn" id="demoRecover" type="button">문제 상담 보완하기</button><button class="btn" id="demoContrast" type="button">정정 표현 비교</button><button class="btn primary" id="demoStep" type="button">다음 발언 ▶</button></div></section>
   <section class="sourcebox"><strong>분석기준 및 사용상 주의</strong><div>이 프로토타입은 금융소비자보호법 설명의무와 금융당국의 홍콩 H지수 ELS 판매 관행 개선 취지 등을 참고한 <b>교육용 위험 탐지 체크리스트</b>입니다. 발언만으로 적합성·설명의무 이행을 입증하거나 확정할 수 없습니다. 체크리스트의 '근거 확인'도 법적 준수를 의미하지 않습니다.</div><div class="sources"><a target="_blank" rel="noopener noreferrer" href="https://www.law.go.kr/LSW/lsSideInfoP.do?docCls=jo&amp;joBrNo=00&amp;joNo=0019&amp;lsiSeq=277247&amp;urlMode=lsScJoRltInfoR">금융소비자보호법 제19조 ↗</a><a target="_blank" rel="noopener noreferrer" href="https://fsc.go.kr/po020201/84057">금융위 홍콩 H지수 ELS 대책 Q&amp;A ↗</a><a target="_blank" rel="noopener noreferrer" href="https://www.kcie.or.kr/guide/2/14/web_view?content_idx=886&amp;series_idx=">전국투자자교육협의회 ELS 구조 안내 ↗</a></div></section>
-  <div class="foot">금융소리망 5.0 · 홍콩 H지수 ELS 교육/경진대회 시연용 · 음성인식(STT) + 무료 자바스크립트 규칙 엔진 · 생성형 AI가 아니며 금융소비자보호법 준수/위반·고객 적합성의 법적 판정이 아닙니다. 화자는 수동 선택해야 하고, 실제 고객 녹취는 사용하지 마세요. 음성인식 제공자가 음성을 외부 서버에서 처리할 수 있습니다.</div>
+  <div class="foot">금융소리망 5.5 · 홍콩 H지수 ELS 교육/경진대회 시연용 · 음성인식(STT) + 무료 자바스크립트 규칙 엔진 · 생성형 AI가 아니며 금융소비자보호법 준수/위반·고객 적합성의 법적 판정이 아닙니다. 화자는 수동 선택해야 하고, 실제 고객 녹취는 사용하지 마세요. 음성인식 제공자가 음성을 외부 서버에서 처리할 수 있습니다.</div>
 </main>
 </div>
 <script src="sorimang-db.js"></script>
@@ -687,5 +711,7 @@ window.addEventListener('beforeunload',()=>{if(rec){try{rec.abort();}catch(e){}}
 render();setMicState('idle','마이크 시작·종료는 직접 버튼으로 제어합니다. 브라우저 자동 종료 시 재연결을 시도합니다.');
 
 </script>
+<script src="risk-v54.js"></script>
+<script src="live-compare-v55.js"></script>
 </body>
 </html>
