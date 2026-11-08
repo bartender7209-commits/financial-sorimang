@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>금융소리망 5.3 | 위험 발언 탐지 성능 검증</title>
+<style>
+:root{--navy:#12284a;--navy2:#192f54;--blue:#275cda;--ink:#182b4b;--muted:#697b94;--bg:#f3f6fb;--panel:#fff;--line:#dfe7f1;--red:#b94a62;--green:#19876e;--amber:#b98520}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Noto Sans KR","Malgun Gothic",sans-serif;color:var(--ink);line-height:1.56}a{color:inherit;text-decoration:none}.layout{display:grid;grid-template-columns:246px minmax(0,1fr);min-height:100vh}.side{background:var(--navy);color:#e9f1fe;padding:30px 18px;position:sticky;top:0;height:100vh}.brand{font-weight:900;font-size:22px;letter-spacing:-.6px;padding:0 12px 23px;border-bottom:1px solid #3b5173}.version{color:#9ec6ff;font-size:12px;font-weight:700;letter-spacing:.1em;padding:22px 12px 10px}.nav{display:block;padding:12px 13px;border-radius:10px;color:#c8d8f2;font-size:14px;margin-bottom:7px;font-weight:650}.nav:hover,.nav:focus{background:#273f65;color:#fff}.nav.current{background:#2a5194;color:#fff}.small{font-size:12px;color:#aabbd3;padding:16px 12px;margin-top:22px;border-top:1px solid #3b5173}.main{padding:30px 34px 52px;max-width:1540px;width:100%;margin:0 auto}.eyebrow{color:var(--blue);font-size:12px;font-weight:800;letter-spacing:.12em}.hero{display:flex;gap:18px;align-items:flex-start;justify-content:space-between;margin:0 0 20px}.hero h1{font-size:30px;letter-spacing:-1px;margin:6px 0}.hero p{color:var(--muted);margin:0;font-size:14px}.pill{padding:7px 11px;border-radius:100px;background:#e4ebfb;font-size:12px;color:#1e4b99;white-space:nowrap;font-weight:800}.notice{border:1px solid #c9ddf5;border-left:4px solid var(--blue);background:#ecf3fd;padding:14px 16px;border-radius:9px;font-size:13px;margin-bottom:18px}.notice strong{color:#17458e}.panel{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:19px 20px;box-shadow:0 4px 15px #19386208;margin-bottom:18px}.panel h2{font-size:17px;margin:0 0 7px}.panel p{margin:0;color:var(--muted);font-size:13px}.actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:15px}.btn{font-family:inherit;border:1px solid #cddbef;background:#fff;color:var(--ink);font-size:13px;font-weight:750;border-radius:9px;padding:10px 13px;cursor:pointer}.btn:hover,.btn:focus-visible{border-color:var(--blue)}.btn.primary{background:var(--blue);color:#fff;border-color:var(--blue)}.btn.secondary{background:#edf3fd}.btn:disabled{opacity:.45;cursor:not-allowed}.src{font-size:12px;color:#4c668a;background:#f2f6fc;border-radius:7px;padding:7px 11px}.status{font-size:13px;margin:12px 0 0;color:#2554a3;min-height:21px}.status.error{color:#b53853}.metrics{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin:18px 0}.metric{background:#fff;border:1px solid var(--line);padding:16px 17px;border-radius:14px;min-height:104px}.metric .label{font-size:12px;color:var(--muted);font-weight:650}.metric .value{font-weight:900;font-size:26px;margin-top:7px;letter-spacing:-.7px}.metric .desc{font-size:11px;color:#6e819f}.grid{display:grid;grid-template-columns:1.05fr 1fr;gap:16px}.matrix{display:grid;grid-template-columns:112px repeat(2,minmax(0,1fr));gap:7px;margin:13px 0 12px}.matrix .head{background:#f2f5fa;text-align:center;padding:10px;font-size:12px;color:#566b8a;border-radius:9px}.matrix .sidehead{font-size:12px;display:flex;align-items:center;color:#566b8a;font-weight:700}.cell{padding:12px;text-align:center;border-radius:9px;border:1px solid var(--line)}.cell.good{background:#e6f4f0;border-color:#c2e5dc}.cell.bad{background:#fcebf0;border-color:#f2cbd5}.cell strong{display:block;font-size:25px}.cell span{display:block;font-size:12px;color:#56657b}.tiny{font-size:11px!important}.break-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:11px 0;border-bottom:1px solid #edf1f7}.break-row:last-child{border:0}.break-row .nm{font-size:13px;font-weight:650}.break-row .st{font-size:12px;color:#6a7b93}.break-row .pct{font-size:15px;font-weight:850}.bar{height:7px;background:#e8edf6;border-radius:10px;overflow:hidden;margin-top:7px}.fill{height:100%;background:#366cd7;border-radius:10px}.fill.warn{background:#b94a62}.break-row .left{flex:1}.split{display:grid;grid-template-columns:1fr 1fr;gap:20px}.split h3{font-size:13px;margin:5px 0 12px}.table-wrap{width:100%;overflow:auto;margin-top:13px;border:1px solid var(--line);border-radius:10px}table{width:100%;border-collapse:collapse;font-size:12px}th{background:#f0f4f9;text-align:left;color:#4c6385;white-space:nowrap;padding:10px 9px}td{padding:11px 9px;border-top:1px solid #ebeff6;vertical-align:top}td.content{min-width:290px;max-width:550px;line-height:1.55}.tag{font-size:11px;font-weight:800;display:inline-block;border-radius:6px;padding:3px 7px;white-space:nowrap}.tag.tp,.tag.tn{background:#e5f5f0;color:#12765d}.tag.fp,.tag.fn{background:#fcebf0;color:#ab3752}.selector{font:inherit;font-size:13px;border:1px solid #c9d6e9;background:#fff;border-radius:8px;padding:7px 10px}.flex{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}.notes{font-size:13px;color:#516781;line-height:1.75;padding:0 0 0 18px}.notes li{margin-bottom:6px}footer{color:#6d7d92;font-size:11px;margin-top:20px} .sr{position:absolute;width:1px;height:1px;clip-path:inset(50%);overflow:hidden}input[type=file]{display:none} .empty{padding:24px;text-align:center;color:var(--muted)}
+@media(max-width:1200px){.metrics{grid-template-columns:repeat(3,1fr)}.grid{grid-template-columns:1fr}.main{padding:24px}}@media(max-width:720px){.layout{display:block}.side{height:auto;position:static;padding:15px}.brand{padding:0 0 10px}.version{display:none}.nav{display:inline-block;margin:4px 1px 0;padding:7px;font-size:12px}.small{display:none}.hero{display:block}.hero h1{font-size:23px}.pill{display:inline-block;margin-top:12px}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.metric{padding:12px}.metric .value{font-size:22px}.split{grid-template-columns:1fr}.matrix{grid-template-columns:70px repeat(2,1fr)}.main{padding:16px}.panel{padding:15px}}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="side">
+  <div class="brand">금융소리망 <span style="color:#9ec6ff">5.3</span></div>
+  <div class="version">FINANCIAL SORIMANG</div>
+  <a class="nav" href="index.html">◉ &nbsp; 상담 모니터링</a>
+  <a class="nav" href="analytics.html">▤ &nbsp; 브라우저 분석</a>
+  <a class="nav" href="cloud-analytics.html">▣ &nbsp; D1 서버 분석</a>
+  <a class="nav current" href="evaluation.html" aria-current="page">◈ &nbsp; 탐지 성능 검증</a>
+  <div class="small">이 화면은 기존 규칙 엔진을 평가합니다. 데이터는 기기 내에서만 처리하며, D1 서버에 전송하거나 저장하지 않습니다.</div>
+</aside>
+<main class="main">
+  <div class="eyebrow">MODEL EVALUATION · RULE ENGINE</div>
+  <div class="hero"><div><h1>위험 발언 탐지 성능 검증</h1><p>정답이 부여된 평가 문장과 엔진의 판정을 비교해 오탐·미탐을 분석합니다.</p></div><div class="pill">합성 데이터 · 로컬 평가</div></div>
+  <div class="notice"><strong>평가 범위와 한계</strong> · 5.2의 <b>자바스크립트 규칙 기반 위험 발언 탐지</b>를 평가합니다. 생성형 AI·STT 인식률·법률 위반 여부를 측정하지 않습니다. 기본 100문장은 합성 예시이며 정답은 전문가 독립 검증을 거치지 않았습니다. 따라서 실제 금융상담 성능으로 일반화할 수 없습니다.</div>
+  <section class="panel" aria-label="평가 실행">
+    <div class="flex"><div><h2>평가 실행 및 결과 내보내기</h2><p id="sourceLabel">기본 합성 문장 100건 · 위험 50건 / 정상 50건</p></div><span class="src" id="runTime">실행 전</span></div>
+    <div class="actions">
+      <button id="run" type="button" class="btn primary">평가 실행</button>
+      <label for="csvFile" class="btn secondary" tabindex="0" role="button">별도 정답 CSV 불러오기</label>
+      <input id="csvFile" type="file" accept=".csv,text/csv">
+      <button id="reset" type="button" class="btn">기본 100건 복원</button>
+      <button id="template" type="button" class="btn">CSV 양식</button>
+      <button id="exportCsv" type="button" class="btn">평가 결과 CSV</button>
+      <button id="exportJson" type="button" class="btn">평가 결과 JSON</button>
+    </div>
+    <div class="status" id="message" role="status" aria-live="polite">기본 평가 문장을 불러오는 중입니다.</div>
+  </section>
+  <section class="metrics" aria-label="핵심 성능 지표">
+   <div class="metric"><div class="label">정확도 · Accuracy</div><div class="value" id="accuracy">—</div><div class="desc">전체 정답 비율</div></div>
+   <div class="metric"><div class="label">정밀도 · Precision</div><div class="value" id="precision">—</div><div class="desc">경고 중 실제 위험 비율</div></div>
+   <div class="metric"><div class="label">재현율 · Recall</div><div class="value" id="recall">—</div><div class="desc">위험 발언 탐지 비율</div></div>
+   <div class="metric"><div class="label">F1 점수</div><div class="value" id="f1">—</div><div class="desc">정밀도·재현율 조화평균</div></div>
+   <div class="metric"><div class="label">검증 문장</div><div class="value" id="count">—</div><div class="desc">정답 레이블 보유</div></div>
+  </section>
+  <div class="grid">
+    <section class="panel"><h2>혼동행렬 · Confusion matrix</h2><p>세로는 정답, 가로는 시스템이 탐지한 결과입니다.</p>
+      <div class="matrix">
+        <div class="head"></div><div class="head">탐지: 위험</div><div class="head">탐지: 정상</div>
+        <div class="sidehead">실제: 위험</div><div class="cell good"><strong id="tp">—</strong><span>정탐 · TP</span></div><div class="cell bad"><strong id="fn">—</strong><span>미탐 · FN</span></div>
+        <div class="sidehead">실제: 정상</div><div class="cell bad"><strong id="fp">—</strong><span>오탐 · FP</span></div><div class="cell good"><strong id="tn">—</strong><span>정상 분류 · TN</span></div>
+      </div><p class="tiny">오탐: 정상 표현을 위험하다고 경고 · 미탐: 위험 표현을 놓침</p>
+    </section>
+    <section class="panel"><h2>문장 난도별 결과</h2><p>기본 문장과 표현의 부정·인용·변형을 포함한 도전 문장을 비교합니다.</p><div id="difficultyRows"></div></section>
+  </div>
+  <section class="panel"><h2>유형별 탐지 및 오탐</h2><p>위험 유형은 정탐 수를, 정상 유형은 오탐 수를 표시합니다. 레이블은 합성 문장에 대한 작성자 판단입니다.</p><div class="split"><div><h3>실제 위험 문장 — 탐지된 개수</h3><div id="positiveGroups"></div></div><div><h3>실제 정상 문장 — 잘못 경고한 개수</h3><div id="negativeGroups"></div></div></div></section>
+  <section class="panel">
+    <div class="flex"><div><h2>문장별 판정 내역</h2><p>오탐(FP)과 미탐(FN)을 확인해 개선 과제를 찾을 수 있습니다.</p></div><div><label for="filter" class="sr">결과 필터</label><select id="filter" class="selector"><option value="all">전체 사례</option><option value="errors">오류만 보기 (FP+FN)</option><option value="fp">오탐만 보기 (FP)</option><option value="fn">미탐만 보기 (FN)</option><option value="correct">정상 분류만 보기 (TP+TN)</option></select></div></div>
+    <div class="table-wrap"><table><thead><tr><th>ID</th><th>구분</th><th>평가 문장</th><th>정답</th><th>시스템</th><th>판정</th></tr></thead><tbody id="resultRows"><tr><td colspan="6" class="empty">평가 실행 전입니다.</td></tr></tbody></table></div>
+  </section>
+  <section class="panel"><h2>발표·연구에 사용할 때 유의사항</h2>
+    <ol class="notes">
+      <li>이 화면의 수치는 <strong>규칙 기반 탐지 성능</strong>이다. AI 모델 정확도나 금융소비자보호법 위반 판정률로 발표하면 안 된다.</li>
+      <li>평가 데이터는 개발자가 구성한 <strong>가상 문장 100개</strong>다. 실제 고객상담·독립된 전문가 주석 데이터가 아니며 대표성을 보장하지 않는다.</li>
+      <li>평가에는 화자 구분이 된 직원 발언 한 문장씩 사용했다. 다중 발언의 문맥 및 음성인식 오류는 별도로 검증해야 한다.</li>
+      <li>실제 서비스 평가 시에는 문장 표본 확대, 독립 레이블 검수, 상담 흐름 테스트, 개인정보 보호 검토가 필요하다.</li>
+      <li>CSV를 불러와 별도의 평가 집합으로 시험할 수 있지만 <strong>실제 고객 녹취나 개인정보는 입력하지 말 것</strong>.</li>
+    </ol>
+  </section>
+  <footer>금융소리망 5.3 · 교육·경진대회용 합성 테스트 · 현재 페이지의 데이터는 브라우저에서만 처리되며 Cloudflare D1로 전송되지 않습니다.</footer>
+</main>
+</div>
+<script src="engine.js"></script><script src="evaluation-cases.js"></script><script src="evaluation-core.js"></script><script src="evaluation.js"></script>
+</body></html>
