@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>금융소리망 5.2 | D1 서버 분석</title>
+<style>
+:root{--navy:#0d2344;--text:#1d304d;--muted:#63728b;--line:#dfe8f3;--blue:#2563eb;--bg:#f4f7fb}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.6 Pretendard,'Noto Sans KR','Malgun Gothic',system-ui,sans-serif}h1,h2,p{margin-top:0}h1{font-size:26px}h2{font-size:16px}
+nav{background:var(--navy);padding:17px max(22px,calc((100vw - 1220px)/2));color:#fff;display:flex;align-items:center;gap:20px;flex-wrap:wrap}nav strong{font-size:20px;margin-right:auto}nav a{color:#e4eeff;text-decoration:none;font-weight:700;font-size:13px}
+main{max-width:1220px;margin:24px auto;padding:0 18px 55px}.intro{display:flex;align-items:start;justify-content:space-between;gap:14px;flex-wrap:wrap}.muted{color:var(--muted)}.note{border:1px solid #bfd4f2;border-radius:12px;background:#ecf3ff;padding:15px 18px;color:#355982;font-size:13px}
+.box{border:1px solid var(--line);border-radius:15px;background:#fff;padding:19px 20px;margin-top:17px;box-shadow:0 3px 12px #16335008}.row{display:flex;align-items:center;flex-wrap:wrap;gap:10px}.row>*{min-width:0}label{font-weight:700}input{border:1px solid #c6d3e7;padding:10px 12px;border-radius:8px;width:min(100%,420px);font:inherit}button{border:1px solid #c9d7ed;background:white;color:#233a5b;border-radius:9px;padding:10px 15px;font-weight:750;cursor:pointer}button.primary{background:var(--blue);color:white;border-color:var(--blue)}button:disabled{opacity:.5;cursor:not-allowed}.status{min-height:23px;font-size:12px;margin:10px 0 0}.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:18px}.card{background:white;border:1px solid var(--line);border-radius:13px;padding:19px}.card small{color:var(--muted)}.card strong{display:block;font-size:29px;margin-top:7px}.pair{display:grid;grid-template-columns:1.2fr .8fr;gap:15px;margin-top:17px}.bar{margin:13px 0}.barhead{display:flex;justify-content:space-between;gap:12px;font-size:12px}.track{height:10px;border-radius:9px;background:#e9eef7;overflow:hidden;margin-top:6px}.track>span{height:100%;display:block;background:linear-gradient(90deg,#448eff,#2150ad)}.legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:12px;font-size:12px}.dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:6px}.tablewrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:660px;font-size:12px}th,td{padding:11px;text-align:left;border-bottom:1px solid #e8edf5}th{color:var(--muted);background:#f7f9fc}footer{font-size:11px;color:#72819a;margin-top:23px}
+@media(max-width:850px){.cards{grid-template-columns:repeat(2,1fr)}.pair{grid-template-columns:1fr}}@media(max-width:520px){.cards{grid-template-columns:1fr 1fr}.card{padding:13px}.card strong{font-size:23px}}
+</style>
+</head>
+<body>
+<nav><strong>금융소리망 <span style="color:#8cb5ff">5.2</span></strong><a href="index.html">상담 모니터링</a><a href="analytics.html">브라우저 분석</a><a href="cloud-analytics.html" aria-current="page">D1 서버 분석</a></nav>
+<main>
+<div class="intro"><div><h1>D1 서버 상담 데이터 분석</h1><p class="muted">브라우저 내부 DB의 가상 상담 요약을 Cloudflare D1에 저장하고 기기 간 조회합니다.</p></div><div class="muted">DEMO · SQL ANALYTICS</div></div>
+<div class="note"><strong>경진대회 시연용</strong> — 저장되는 항목은 상담 ID, 시각, 가상/시연 구분, 발언 수, 설명 점검 상태, 규칙 기반 검토 점수뿐입니다. <strong>상담 원문·녹취·개인정보는 서버에 전송하지 않습니다.</strong> 실제 금융고객 정보는 입력하거나 저장하지 마세요. 이 지표는 AI 예측 확률이나 법규 위반 판정이 아닙니다.</div>
+<section class="box" aria-labelledby="connect-title"><h2 id="connect-title">관리자 인증 및 D1 연결</h2>
+<div class="row"><label for="token">서버 비밀키</label><input id="token" type="password" autocomplete="off" placeholder="Cloudflare에 설정한 SORIMANG_DEMO_TOKEN 값" aria-describedby="tokenHelp"><button type="button" id="connect" class="primary">서버 데이터 조회</button></div>
+<p id="tokenHelp" class="muted" style="font-size:12px;margin:8px 0">비밀키는 현재 화면에서만 사용하며 로컬 스토리지나 서버 DB에 저장하지 않습니다. 공개 저장소에 올리지 마세요.</p>
+<div class="row"><button type="button" id="sync">현재 브라우저의 가상 상담 요약 전송</button><button type="button" id="reload">서버 데이터 새로고침</button></div>
+<div class="row" style="margin-top:9px"><label><input type="checkbox" id="synthetic" style="width:auto"> 모든 업로드 기록이 가상/합성 상담이며 실고객 정보가 포함되지 않았음을 확인합니다.</label></div>
+<p id="status" class="status" role="status" aria-live="polite">D1 서버에 아직 연결하지 않았습니다.</p>
+</section>
+<section class="cards" aria-label="서버 누적 지표"><div class="card"><small>서버에 저장된 상담</small><strong id="count">—</strong></div><div class="card"><small>누적 발언 수</small><strong id="utterances">—</strong></div><div class="card"><small>평균 설명 확인율</small><strong id="completion">—</strong></div><div class="card"><small>평균 검토 점수</small><strong id="risk">—</strong></div></section>
+<div class="pair"><section class="box"><h2>설명 미확인 항목 순위</h2><div id="missing"><p class="muted">서버 데이터를 불러오면 표시됩니다.</p></div></section>
+<section class="box"><h2>검토 우선순위 분포</h2><div id="distribution"><p class="muted">서버 데이터를 불러오면 표시됩니다.</p></div></section></div>
+<section class="box"><h2>서버에 저장된 상담 요약</h2><div class="tablewrap"><table><thead><tr><th>저장시각</th><th>출처</th><th>발언수</th><th>설명확인</th><th>위험 경고</th><th>검토 점수</th></tr></thead><tbody id="records"><tr><td colspan="6">인증 후 조회해 주세요.</td></tr></tbody></table></div></section>
+<footer>금융소리망 5.2 · Cloudflare Pages Functions + D1 · 관리자 단일 비밀키는 대회 시연 전용으로 실제 고객용 인증이 아닙니다 · 서버에는 최대 500개 요약 기록을 조회합니다.</footer>
+</main>
+<script src="sorimang-db.js"></script>
+<script src="cloud-analytics.js"></script>
+</body></html>
