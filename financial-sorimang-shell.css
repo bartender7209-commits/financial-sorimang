@@ -1,0 +1,117 @@
+/* 금융소리망 5.6 / shared navigation across all five pages */
+html{scrollbar-gutter:stable;}
+.fs-layout,.app.fs-layout,.layout.fs-layout,.shell.fs-layout{display:grid;grid-template-columns:252px minmax(0,1fr);min-height:100vh;align-items:stretch}
+.fs-layout>main{min-width:0;box-sizing:border-box}
+.fs-sidebar{--fs-ink:#e5f2ff;--fs-soft:#9fb8d9;position:sticky;top:0;height:100vh;max-height:100vh;overflow-y:auto;box-sizing:border-box;z-index:15;background:linear-gradient(155deg,#091d3a 0%,#102b53 70%,#0e345c 100%);color:var(--fs-ink);padding:22px 14px 17px;display:flex;flex-direction:column;gap:0;box-shadow:4px 0 18px rgba(7,23,48,.07)}
+.fs-sidebar *{box-sizing:border-box;}
+.fs-brand,.fs-brand:visited{display:flex;align-items:center;gap:11px;min-width:0;color:#fff!important;text-decoration:none!important;padding:7px 8px 18px;border-bottom:1px solid rgba(196,218,250,.18);flex:0 0 auto}
+.fs-brand-mark{width:51px;height:51px;object-fit:contain;flex-shrink:0;border-radius:15px;box-shadow:0 4px 17px rgba(0,190,255,.16)}
+.fs-brand-word{display:flex;flex-direction:column;min-width:0;align-items:flex-start;justify-content:center;gap:4px}
+.fs-brand-word strong{display:block;font-size:20px;line-height:1.2;font-weight:850;letter-spacing:-.9px;color:#fff!important;white-space:nowrap}
+.fs-brand-word small{display:block;font-size:9px;line-height:1.3;letter-spacing:1.15px;font-weight:800;color:#87b8e6!important;white-space:nowrap}
+.fs-section{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:10px;font-weight:800;letter-spacing:1.1px;color:var(--fs-soft);padding:20px 12px 11px;min-height:48px}
+.fs-section span{font-size:10px;color:#63ddf4;padding:2px 6px;border:1px solid rgba(88,215,244,.25);border-radius:5px}
+.fs-links{display:flex;flex-direction:column;gap:5px;margin:0;padding:0;flex:0 0 auto}
+.fs-sidebar a.fs-nav-link,.fs-sidebar a.fs-nav-link:visited{width:100%;min-height:48px;height:48px;flex:0 0 48px;display:flex;align-items:center;gap:13px;position:relative;border-radius:10px;padding:0 13px!important;margin:0!important;background:transparent;text-decoration:none!important;font-size:13px!important;line-height:1.3;color:#bfcee5!important;font-weight:730;white-space:nowrap;border:1px solid transparent;transition:background .15s,color .15s,border-color .15s;box-shadow:none}
+.fs-sidebar a.fs-nav-link:hover{background:rgba(125,172,239,.15);color:#fff!important}
+.fs-sidebar a.fs-nav-link[aria-current="page"]{color:#fff!important;background:linear-gradient(90deg,#2456ad,#224d92);border-color:rgba(126,184,255,.21);box-shadow:inset 3px 0 0 #58dff5,0 5px 13px rgba(9,31,82,.16)}
+.fs-sidebar a.fs-nav-link:focus-visible,.fs-brand:focus-visible{outline:2px solid #71e7ff;outline-offset:3px}
+.fs-nav-icon{display:inline-grid;place-items:center;width:19px;height:20px;flex:0 0 19px;font-size:17px;font-weight:800;line-height:1;color:#82b7e3}
+.fs-nav-link[aria-current="page"] .fs-nav-icon{color:#65edff}
+.fs-foot{margin:auto 5px 4px!important;border:1px solid rgba(179,204,235,.19);border-radius:12px;background:rgba(220,238,255,.045);padding:13px!important;font-size:11px;line-height:1.75;color:#b4c9e2;flex:0 0 auto}
+.fs-foot b{display:block;font-size:11px;color:#e9f6ff;margin-bottom:4px}
+@media (max-width:900px){
+  .fs-layout,.app.fs-layout,.layout.fs-layout,.shell.fs-layout{display:block}
+  .fs-sidebar{position:relative;top:auto;height:auto;max-height:none;overflow:visible;padding:10px 12px 11px;display:block;box-shadow:none}
+  .fs-brand,.fs-brand:visited{padding:3px 5px 9px;border-bottom:0}
+  .fs-brand-mark{width:39px;height:39px;border-radius:11px}
+  .fs-brand-word strong{font-size:17px}
+  .fs-brand-word small{font-size:8px}
+  .fs-section,.fs-foot{display:none!important}
+  .fs-links{display:flex;flex-direction:row;flex-wrap:nowrap;gap:5px;overflow-x:auto;scrollbar-width:thin;padding:3px 1px 3px;overscroll-behavior-x:contain}
+  .fs-sidebar a.fs-nav-link,.fs-sidebar a.fs-nav-link:visited{width:auto;flex:0 0 auto;height:40px;min-height:40px;padding:0 11px!important;font-size:12px!important;gap:7px}
+  .fs-nav-icon{width:15px;flex-basis:15px;font-size:14px}
+}
+@media(prefers-reduced-motion:reduce){.fs-sidebar a.fs-nav-link{transition:none}}
+
+
+/* 금융소리망 5.7 — Indigo Violet brand skin.
+   Only visual tokens and presentation: no application logic, risk classification,
+   storage, D1 API, and authentication behavior is changed. */
+:root {
+  --fs-brand-primary: #6c42d7;
+  --fs-brand-deep: #32149a;
+  --fs-brand-lilac: #aa79f4;
+  --fs-brand-pale: #f2ebff;
+  --navy: #21153f;
+  --navy2: #332154;
+  --accent: #6841d4;
+  --blue: #6841d4;
+  --bg: #f7f5fb;
+  --line: #e7e1f1;
+  --border: #e7e1f1;
+}
+html {accent-color: var(--fs-brand-primary)}
+body {background-color:var(--bg)}
+button:focus-visible, input:focus-visible, select:focus-visible,
+textarea:focus-visible, a:focus-visible {outline:2px solid #9864ec;outline-offset:3px}
+::selection {background:#ded0fb;color:#271047}
+.fs-sidebar {
+  --fs-ink:#f7f2ff;
+  --fs-soft:#c4b5e1;
+  background:linear-gradient(165deg,#22163f 0%,#2d1e56 58%,#3e2671 100%);
+  box-shadow:4px 0 18px rgba(39,20,75,.085)
+}
+.fs-brand,.fs-brand:visited {border-bottom-color:rgba(211,190,255,.20)}
+.fs-brand-mark {
+  width:50px;height:50px;object-fit:contain;
+  padding:4px;border-radius:15px;
+  background:#fff;border:1px solid rgba(225,204,255,.8);
+  box-shadow:0 5px 18px rgba(147,98,234,.19)
+}
+.fs-brand-word small {color:#cdb6ff!important;letter-spacing:1px}
+.fs-section {color:#c1addf}
+.fs-section span {color:#e3c6ff;border-color:rgba(200,164,255,.35)}
+.fs-sidebar a.fs-nav-link,.fs-sidebar a.fs-nav-link:visited {color:#ded5ef!important}
+.fs-nav-icon {color:#c4a8f0}
+.fs-sidebar a.fs-nav-link:hover {background:rgba(177,139,253,.17);color:#fff!important}
+.fs-sidebar a.fs-nav-link[aria-current="page"] {
+  background:linear-gradient(90deg,#7650db 0%,#5935b5 100%);
+  border-color:rgba(217,193,255,.30);
+  box-shadow:inset 3px 0 0 #dfbaff,0 6px 18px rgba(20,9,70,.18);
+  color:#fff!important
+}
+.fs-sidebar a.fs-nav-link[aria-current="page"] .fs-nav-icon {color:#f1e1ff}
+.fs-sidebar a.fs-nav-link:focus-visible,.fs-brand:focus-visible {outline-color:#e0b8ff}
+.fs-foot {border-color:rgba(214,197,242,.27);background:rgba(226,210,255,.065);color:#d0c3eb}
+.fs-foot b {color:#fff}
+/* Non-semantic primary actions use the brand palette; warnings retain their own colors. */
+button.primary,.btn.primary,
+button.primary:hover,.btn.primary:hover {
+  background:var(--fs-brand-primary)!important;
+  border-color:var(--fs-brand-primary)!important;
+  color:#fff!important
+}
+button.primary:hover,.btn.primary:hover {filter:brightness(1.06)}
+.btn:not(.primary):not(.warn):not(.danger):not(.dark):hover,
+button:not(.primary):not(.warn):not(.danger):not(.dark):hover {
+  border-color:#c7b4ed
+}
+.eyebrow {color:var(--fs-brand-primary)!important}
+/* Analytics accents. Preserve red/amber/green risk indicators. */
+.fill:not(.risk):not(.gold):not(.legacy) {background:linear-gradient(90deg,#a879ef,#5732c3)!important}
+.fill.legacy {background:#b2a1d8!important}
+.track > span:not([class*="risk"]):not([class*="red"]):not([class*="gold"]) {
+  background:linear-gradient(90deg,#ad7bf4,#6241cf)
+}
+.filter[aria-pressed="true"] {background:#6540c7!important;border-color:#6540c7!important;color:#fff!important}
+.pill:not(.high):not(.mid):not(.low):not(.demo):not(.sample) {background:#eee7fd;color:#5632a6}
+.bar .fill:not(.legacy) {background:var(--fs-brand-primary)}
+/* Link/button accents on the main consultation screen. */
+.gatechip,.v5-chip {background:#ece3fe;color:#5837ab}
+.storagebar {background:#f1ebfe;border-color:#dccdf8;color:#513d76}
+.storagebar strong {color:#493080}
+/* Tiny-screen rendering preserves the 5.6 common menu geometry. */
+@media(max-width:900px) {
+  .fs-brand-mark{width:39px;height:39px;padding:3px;border-radius:11px}
+}

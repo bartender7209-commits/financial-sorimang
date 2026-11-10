@@ -11,9 +11,26 @@ main{max-width:1220px;margin:24px auto;padding:0 18px 55px}.intro{display:flex;a
 .box{border:1px solid var(--line);border-radius:15px;background:#fff;padding:19px 20px;margin-top:17px;box-shadow:0 3px 12px #16335008}.row{display:flex;align-items:center;flex-wrap:wrap;gap:10px}.row>*{min-width:0}label{font-weight:700}input{border:1px solid #c6d3e7;padding:10px 12px;border-radius:8px;width:min(100%,420px);font:inherit}button{border:1px solid #c9d7ed;background:white;color:#233a5b;border-radius:9px;padding:10px 15px;font-weight:750;cursor:pointer}button.primary{background:var(--blue);color:white;border-color:var(--blue)}button:disabled{opacity:.5;cursor:not-allowed}.status{min-height:23px;font-size:12px;margin:10px 0 0}.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:18px}.card{background:white;border:1px solid var(--line);border-radius:13px;padding:19px}.card small{color:var(--muted)}.card strong{display:block;font-size:29px;margin-top:7px}.pair{display:grid;grid-template-columns:1.2fr .8fr;gap:15px;margin-top:17px}.bar{margin:13px 0}.barhead{display:flex;justify-content:space-between;gap:12px;font-size:12px}.track{height:10px;border-radius:9px;background:#e9eef7;overflow:hidden;margin-top:6px}.track>span{height:100%;display:block;background:linear-gradient(90deg,#448eff,#2150ad)}.legend{display:flex;gap:18px;flex-wrap:wrap;margin-top:12px;font-size:12px}.dot{width:10px;height:10px;border-radius:50%;display:inline-block;margin-right:6px}.tablewrap{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:660px;font-size:12px}th,td{padding:11px;text-align:left;border-bottom:1px solid #e8edf5}th{color:var(--muted);background:#f7f9fc}footer{font-size:11px;color:#72819a;margin-top:23px}
 @media(max-width:850px){.cards{grid-template-columns:repeat(2,1fr)}.pair{grid-template-columns:1fr}}@media(max-width:520px){.cards{grid-template-columns:1fr 1fr}.card{padding:13px}.card strong{font-size:23px}}
 </style>
+<link rel="icon" type="image/png" sizes="64x64" href="financial-sorimang-favicon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="financial-sorimang-app-icon.png">
+<meta name="theme-color" content="#21153f">
+<link rel="stylesheet" href="financial-sorimang-shell.css">
 </head>
 <body>
-<nav><strong>금융소리망 <span style="color:#8cb5ff">5.2</span></strong><a href="index.html">상담 모니터링</a><a href="analytics.html">브라우저 분석</a><a href="cloud-analytics.html" aria-current="page">D1 서버 분석</a><a href="evaluation.html">탐지 성능 검증</a><a href="evaluation-compare.html">5.4 개선 비교</a></nav>
+<div class="fs-layout">
+<aside class="fs-sidebar" aria-label="금융소리망 공통 메뉴">
+  <a class="fs-brand" href="index.html" aria-label="금융소리망 홈으로">
+    <img class="fs-brand-mark" src="financial-sorimang-ear.png" alt="" width="50" height="50">
+    <span class="fs-brand-word"><strong>금융소리망</strong><small>FINANCIAL SORIMANG</small></span>
+  </a>
+  <div class="fs-section">FINANCIAL PROTECTION <span>5.5</span></div>
+  <div class="fs-links" role="navigation" aria-label="주요 메뉴"><a class="fs-nav-link" href="index.html" ><span class="fs-nav-icon" aria-hidden="true">◉</span><span>상담 모니터링</span></a>
+<a class="fs-nav-link" href="analytics.html" ><span class="fs-nav-icon" aria-hidden="true">▤</span><span>브라우저 분석</span></a>
+<a class="fs-nav-link" href="cloud-analytics.html" aria-current="page"><span class="fs-nav-icon" aria-hidden="true">▣</span><span>D1 서버 분석</span></a>
+<a class="fs-nav-link" href="evaluation.html" ><span class="fs-nav-icon" aria-hidden="true">◇</span><span>탐지 성능 검증</span></a>
+<a class="fs-nav-link" href="evaluation-compare.html" ><span class="fs-nav-icon" aria-hidden="true">⇄</span><span>개선 전후 비교</span></a></div>
+  <p class="fs-foot"><b>경진대회 시연 전용</b>가상 금융상담 데이터만 사용합니다. 실제 고객 녹취·개인정보를 입력하지 마세요.</p>
+</aside>
 <main>
 <div class="intro"><div><h1>D1 서버 상담 데이터 분석</h1><p class="muted">브라우저 내부 DB의 가상 상담 요약을 Cloudflare D1에 저장하고 기기 간 조회합니다.</p></div><div class="muted">DEMO · SQL ANALYTICS</div></div>
 <div class="note"><strong>경진대회 시연용</strong> — 저장되는 항목은 상담 ID, 시각, 가상/시연 구분, 발언 수, 설명 점검 상태, 규칙 기반 검토 점수뿐입니다. <strong>상담 원문·녹취·개인정보는 서버에 전송하지 않습니다.</strong> 실제 금융고객 정보는 입력하거나 저장하지 마세요. 이 지표는 AI 예측 확률이나 법규 위반 판정이 아닙니다.</div>
@@ -30,6 +47,7 @@ main{max-width:1220px;margin:24px auto;padding:0 18px 55px}.intro{display:flex;a
 <section class="box"><h2>서버에 저장된 상담 요약</h2><div class="tablewrap"><table><thead><tr><th>저장시각</th><th>출처</th><th>발언수</th><th>설명확인</th><th>위험 경고</th><th>검토 점수</th></tr></thead><tbody id="records"><tr><td colspan="6">인증 후 조회해 주세요.</td></tr></tbody></table></div></section>
 <footer>금융소리망 5.2 · Cloudflare Pages Functions + D1 · 관리자 단일 비밀키는 대회 시연 전용으로 실제 고객용 인증이 아닙니다 · 서버에는 최대 500개 요약 기록을 조회합니다.</footer>
 </main>
+</div>
 <script src="sorimang-db.js"></script>
 <script src="cloud-analytics.js"></script>
 </body></html>

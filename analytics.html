@@ -20,18 +20,25 @@
   @media(max-width:800px){.app{display:block}.side{padding:11px;display:flex;flex-direction:row;align-items:center;gap:9px;flex-wrap:wrap}.brand{padding:0;border:0;margin-right:auto}.brand strong{font-size:15px}.brand small{display:none}.logo{width:31px;height:31px;font-size:15px}.nav{padding:10px;font-size:12px}.sidehead,.sidenote{display:none}.main{padding:20px 12px 30px}}
   @media(max-width:480px){.kpis{gap:8px}.metric{padding:14px}.metric .val{font-size:25px}.card{padding:15px}.recordsearch{min-width:100%;width:100%}}
   </style>
+<link rel="icon" type="image/png" sizes="64x64" href="financial-sorimang-favicon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="financial-sorimang-app-icon.png">
+<meta name="theme-color" content="#21153f">
+<link rel="stylesheet" href="financial-sorimang-shell.css">
 </head>
 <body>
-<div class="app">
-<aside class="side">
-  <div class="brand"><div class="logo">≋</div><div><strong>금융소리망</strong><small>FINANCIAL VOICE GUARD</small></div></div>
-  <div class="sidehead">H-INDEX ELS · V5.0</div>
-  <a class="nav" href="index.html">◉ &nbsp; 상담 모니터링</a>
-  <a class="nav current" aria-current="page" href="analytics.html">▥ &nbsp; 상담 데이터 분석</a>
-  <a class="nav" href="cloud-analytics.html">▣ &nbsp; D1 서버 분석</a>
-  <a class="nav" href="evaluation.html">◈ &nbsp; 탐지 성능 검증</a>
-  <a class="nav" href="evaluation-compare.html">↗ &nbsp; 5.4 개선 전후 비교</a>
-  <div class="sidenote"><b>교육·경진대회 시연 전용</b>실제 고객정보를 저장하지 마세요. 이 화면의 수치는 현재 브라우저에 저장된 시연 기록을 집계합니다. 법률상 위험 판정 또는 AI 예측 결과가 아닙니다.</div>
+<div class="app fs-layout">
+<aside class="fs-sidebar" aria-label="금융소리망 공통 메뉴">
+  <a class="fs-brand" href="index.html" aria-label="금융소리망 홈으로">
+    <img class="fs-brand-mark" src="financial-sorimang-ear.png" alt="" width="50" height="50">
+    <span class="fs-brand-word"><strong>금융소리망</strong><small>FINANCIAL SORIMANG</small></span>
+  </a>
+  <div class="fs-section">FINANCIAL PROTECTION <span>5.5</span></div>
+  <div class="fs-links" role="navigation" aria-label="주요 메뉴"><a class="fs-nav-link" href="index.html" ><span class="fs-nav-icon" aria-hidden="true">◉</span><span>상담 모니터링</span></a>
+<a class="fs-nav-link" href="analytics.html" aria-current="page"><span class="fs-nav-icon" aria-hidden="true">▤</span><span>브라우저 분석</span></a>
+<a class="fs-nav-link" href="cloud-analytics.html" ><span class="fs-nav-icon" aria-hidden="true">▣</span><span>D1 서버 분석</span></a>
+<a class="fs-nav-link" href="evaluation.html" ><span class="fs-nav-icon" aria-hidden="true">◇</span><span>탐지 성능 검증</span></a>
+<a class="fs-nav-link" href="evaluation-compare.html" ><span class="fs-nav-icon" aria-hidden="true">⇄</span><span>개선 전후 비교</span></a></div>
+  <p class="fs-foot"><b>경진대회 시연 전용</b>가상 금융상담 데이터만 사용합니다. 실제 고객 녹취·개인정보를 입력하지 마세요.</p>
 </aside>
 <main class="main">
   <header class="heading">

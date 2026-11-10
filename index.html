@@ -73,18 +73,25 @@ button,input,textarea,select{font:inherit}button{cursor:pointer;transition:trans
 #liveComparePanel .lc-foot{font-size:11px;color:#667b98;line-height:1.7;margin-top:13px}
 @media(max-width:840px){#liveComparePanel .lc-metrics{grid-template-columns:repeat(2,1fr)}}
 </style>
+<link rel="icon" type="image/png" sizes="64x64" href="financial-sorimang-favicon.png">
+<link rel="apple-touch-icon" sizes="180x180" href="financial-sorimang-app-icon.png">
+<meta name="theme-color" content="#21153f">
+<link rel="stylesheet" href="financial-sorimang-shell.css">
 </head>
 <body>
-<div class="app">
-<aside class="sidebar">
-  <div class="brand"><div class="brand-mark">≋</div><div><h1>금융소리망</h1><small>FINANCIAL VOICE GUARD</small></div></div>
-  <div class="side-label">H-INDEX ELS · V5.5</div>
-  <button class="navbtn active" type="button">◉ &nbsp; 상담 모니터링</button>
-  <a class="navbtn" href="cloud-analytics.html" style="text-decoration:none">▣ &nbsp; D1 서버 분석</a>
-  <a class="navbtn" href="evaluation.html" style="text-decoration:none">◈ &nbsp; 탐지 성능 검증 <span class="v5-chip">5.3</span></a>
-  <a class="navbtn" href="evaluation-compare.html" style="text-decoration:none">↗ &nbsp; 개선 전후 비교 <span class="v5-chip">5.4</span></a>
-  <a class="side-anchor" href="analytics.html">▥ &nbsp; 상담 데이터 분석 <span class="v5-chip">NEW</span></a>
-  <div class="smallnote"><b>시연용 소프트웨어</b>이 프로그램은 가상 가입을 잠그는 시연용 소프트웨어입니다. 실제 금융회사 계좌/주문 시스템에 연동되지 않으며 법적 준수 여부를 판정하지 않습니다.</div>
+<div class="app fs-layout">
+<aside class="fs-sidebar" aria-label="금융소리망 공통 메뉴">
+  <a class="fs-brand" href="index.html" aria-label="금융소리망 홈으로">
+    <img class="fs-brand-mark" src="financial-sorimang-ear.png" alt="" width="50" height="50">
+    <span class="fs-brand-word"><strong>금융소리망</strong><small>FINANCIAL SORIMANG</small></span>
+  </a>
+  <div class="fs-section">FINANCIAL PROTECTION <span>5.5</span></div>
+  <div class="fs-links" role="navigation" aria-label="주요 메뉴"><a class="fs-nav-link" href="index.html" aria-current="page"><span class="fs-nav-icon" aria-hidden="true">◉</span><span>상담 모니터링</span></a>
+<a class="fs-nav-link" href="analytics.html" ><span class="fs-nav-icon" aria-hidden="true">▤</span><span>브라우저 분석</span></a>
+<a class="fs-nav-link" href="cloud-analytics.html" ><span class="fs-nav-icon" aria-hidden="true">▣</span><span>D1 서버 분석</span></a>
+<a class="fs-nav-link" href="evaluation.html" ><span class="fs-nav-icon" aria-hidden="true">◇</span><span>탐지 성능 검증</span></a>
+<a class="fs-nav-link" href="evaluation-compare.html" ><span class="fs-nav-icon" aria-hidden="true">⇄</span><span>개선 전후 비교</span></a></div>
+  <p class="fs-foot"><b>경진대회 시연 전용</b>가상 금융상담 데이터만 사용합니다. 실제 고객 녹취·개인정보를 입력하지 마세요.</p>
 </aside>
 <main class="main">
   <div class="header"><div><h2>홍콩 H지수 ELS · 가입 통제형 상담 검증</h2><p>설명이 부족하면 가상 가입을 차단하고, 보완·재검증 후 잠금을 해제합니다.</p></div><div class="topactions"><span class="pill off" id="livePill">마이크 대기</span><button class="btn" id="saveDbBtn" type="button">▣ 상담 DB 저장</button><button class="btn" id="downloadBtn" type="button">↓ TXT 다운로드</button><button class="btn warn" id="resetBtn" type="button">전체 초기화</button></div></div>
