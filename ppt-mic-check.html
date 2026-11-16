@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>금융소리망 | PowerPoint 음성환경 진단 v4</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:'Malgun Gothic',system-ui,sans-serif;background:#f6f7fd;color:#202345;line-height:1.5}
+header{padding:16px 22px;background:#27245b;color:#fff;display:flex;gap:15px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+header strong{font-size:20px}header small{font-size:12px;color:#dedbff}
+main{padding:18px 22px;display:grid;grid-template-columns:minmax(240px,1.15fr) minmax(290px,1fr);gap:16px}
+section{background:white;border:1px solid #dfe2ef;border-radius:14px;padding:16px;box-shadow:0 3px 10px #19124c0c}
+h2{font-size:15px;margin:0 0 12px}.btn{display:inline-block;border:1px solid #d5d4f2;border-radius:9px;background:#f0edff;color:#292359;font-weight:700;padding:11px 13px;margin:0 6px 8px 0;cursor:pointer;min-height:42px}
+.primary{background:#4d40a5;border-color:#4d40a5;color:white}.btn:disabled{opacity:.5}
+.status{display:grid;grid-template-columns:115px 1fr;gap:8px 6px;margin-top:12px;font-size:12px}.status dt{color:#656b7f}.status dd{margin:0;font-weight:700;overflow-wrap:anywhere}
+textarea{width:100%;height:215px;border:1px solid #ccd0e5;padding:10px;border-radius:9px;font:12px Consolas,monospace;resize:vertical}
+p.note{font-size:12px;color:#60647a;margin-top:8px}.ok{color:#137b53}.bad{color:#be3838}.warn{color:#9a5a00}
+@media(max-width:700px){main{grid-template-columns:1fr}}
+</style>
+<script>
+window.__probeErrors=[];
+window.addEventListener('error',function(e){window.__probeErrors.push(e.message||'resource error');});
+window.addEventListener('unhandledrejection',function(e){window.__probeErrors.push(String(e.reason||'unhandled rejection'));});
+</script></head><body>
+<header><div><strong>금융소리망 · PPT 마이크 진단 v4</strong><div><small>흰 화면·마이크 접근·한국어 음성인식을 분리 검증합니다.</small></div></div><small id="load-status">HTML 표시 성공</small></header>
+<main>
+<section><h2>1. 단계별 테스트</h2>
+<button class="btn" id="env">환경 확인</button>
+<button class="btn" id="perm">권한 상태 확인</button>
+<button class="btn primary" id="mic">마이크 장치 테스트</button>
+<button class="btn primary" id="speech">음성인식 테스트</button>
+<button class="btn" id="copy">진단 로그 복사</button>
+<dl class="status">
+<dt>HTML 화면</dt><dd class="ok">정상</dd>
+<dt>마이크 API</dt><dd id="api">검사 전</dd>
+<dt>마이크 권한</dt><dd id="policy">검사 전</dd>
+<dt>음성인식 API</dt><dd id="speechapi">검사 전</dd>
+<dt>Office 초기화</dt><dd id="office">확인 중</dd>
+<dt>마이크 장치</dt><dd id="micresult">검사 전</dd>
+<dt>음성인식 결과</dt><dd id="speechresult">검사 전</dd>
+</dl><p class="note">실제 음성인식은 단순 마이크 권한과 별도 테스트입니다. 개인정보가 아닌 짧은 테스트 문장만 말하세요.</p></section>
+<section><h2>2. 실시간 진단 로그</h2><textarea id="log" aria-label="진단 결과" readonly></textarea><p class="note">PowerPoint 내부에서 이 화면이 보이면 기본 HTML 로딩은 성공한 것입니다. 오류가 나오면 로그를 복사해 원인을 특정할 수 있습니다.</p></section>
+</main>
+<script>
+(function(){'use strict';
+  function el(id){return document.getElementById(id)}
+  var lines=[];var active=null;
+  function log(msg){var t=new Date().toLocaleTimeString()+' · '+msg;lines.push(t);el('log').value=lines.join('\n');el('log').scrollTop=el('log').scrollHeight;}
+  function check(){
+    var policy=document.permissionsPolicy||document.featurePolicy;
+    var allowed='정보 없음';try{if(policy&&typeof policy.allowsFeature==='function')allowed=String(policy.allowsFeature('microphone'));}catch(e){allowed='확인 실패: '+e.name}
+    el('api').textContent=String(!!(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia));
+    el('policy').textContent=allowed;
+    el('speechapi').textContent=String(!!(window.SpeechRecognition||window.webkitSpeechRecognition));
+    log('URL: '+location.href);
+    log('HTTPS / isSecureContext: '+window.isSecureContext+' / 상위 iframe: '+(window!==window.top));
+    log('PermissionsPolicy microphone: '+allowed);
+    log('getUserMedia: '+el('api').textContent+', SpeechRecognition: '+el('speechapi').textContent);
+    log('UserAgent: '+navigator.userAgent);
+    if(window.__probeErrors.length)log('JS 초기화 오류: '+window.__probeErrors.join(' | '));
+  }
+  async function permission(){
+    if(!navigator.permissions||!navigator.permissions.query){log('navigator.permissions 조회 불가');return;}
+    try {var p=await navigator.permissions.query({name:'microphone'});log('브라우저 권한 상태: '+p.state);}
+    catch(e){log('권한 조회 지원 안 함: '+e.name+' '+e.message);}
+  }
+  async function mic(){
+    if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){el('micresult').textContent='API 미지원';log('getUserMedia API 미지원');return;}
+    log('마이크 허용 요청 중');el('micresult').textContent='권한 요청 중';
+    try{var s=await navigator.mediaDevices.getUserMedia({audio:true});s.getTracks().forEach(function(t){t.stop()});el('micresult').textContent='성공';el('micresult').className='ok';log('마이크 장치 접근 성공');}
+    catch(e){el('micresult').textContent=e.name;el('micresult').className='bad';log('마이크 접근 실패: '+e.name+' | '+e.message);}
+  }
+  function speech(){
+    var Speech=window.SpeechRecognition||window.webkitSpeechRecognition;
+    if(!Speech){el('speechresult').textContent='API 미지원';log('SpeechRecognition 지원하지 않음');return;}
+    if(active){log('이미 음성인식 진행 중');return;}
+    try{var rec=new Speech();active=rec;rec.lang='ko-KR';rec.continuous=false;rec.interimResults=false;
+      rec.onresult=function(e){var t=Array.from(e.results).map(function(r){return r[0].transcript}).join(' ');el('speechresult').textContent=t;el('speechresult').className='ok';log('음성인식 성공: '+t);};
+      rec.onerror=function(e){el('speechresult').textContent=e.error;el('speechresult').className='bad';log('음성인식 오류: '+e.error+' | '+(e.message||''));};
+      rec.onend=function(){log('음성인식 종료');if(active===rec)active=null;};
+      rec.start();el('speechresult').textContent='듣는 중 · 짧게 말해 주세요';log('한국어 음성인식 시작');
+      setTimeout(function(){if(active===rec){try{rec.stop()}catch(e){}}},12000);
+    }catch(e){log('음성인식 시작 실패: '+e.name+' | '+e.message);el('speechresult').textContent=e.name;active=null;}
+  }
+  el('env').onclick=check;el('perm').onclick=permission;el('mic').onclick=mic;el('speech').onclick=speech;
+  el('copy').onclick=async function(){try{await navigator.clipboard.writeText(el('log').value);log('로그 복사 성공');}catch(e){el('log').focus();el('log').select();log('클립보드 권한 실패. Ctrl+C 로 복사하세요');}};
+  log('HTML 및 JS 초기화 완료. 환경 확인 → 마이크 장치 테스트 → 음성인식 테스트');
+  check();
+  var script=document.createElement('script');script.src='https://appsforoffice.microsoft.com/lib/1/hosted/office.js';script.async=true;
+  script.onload=function(){el('office').textContent='Office.js 로드됨';log('Office.js 로드 성공');try{Office.onReady().then(function(info){el('office').textContent='완료: '+(info&&info.host||'브라우저');log('Office 초기화 완료');}).catch(function(err){el('office').textContent='초기화 실패';log('Office 초기화 실패: '+err.message);});}catch(e){el('office').textContent='초기화 오류';log('Office.onReady 오류: '+e.message);}};
+  script.onerror=function(){el('office').textContent='CDN 로드 실패';log('Office.js 로드 실패 (네트워크 또는 CDN 차단)');};
+  document.head.appendChild(script);
+})();
+</script></body></html>
